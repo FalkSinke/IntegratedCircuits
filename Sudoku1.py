@@ -134,5 +134,3 @@ def updateNumbers(sudoku):
     return inProgress == 1
 
 execute()
-
-#Claartje test pushing to github
