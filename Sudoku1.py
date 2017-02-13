@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 def readSudoku():
-    with open("puzzle2.sudoku") as f:
+    with open("puzzle4.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append(line.split(','))
@@ -125,7 +125,7 @@ def updateNumbers(sudoku):
             if sudoku[row][column] == 0:
                 numbers = []
                 for i in range (1,10):
-                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,
+                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
                             row,column,i) or numInColumn(sudoku, column,i)):
                         numbers.append(i)
                 if len(numbers) == 1:
