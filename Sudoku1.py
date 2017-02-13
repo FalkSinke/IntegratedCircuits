@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-with open("puzzle4.sudoku") as f:
+with open("puzzle1.sudoku") as f:
     sudoku = []
     for line in f.read().split():
         sudoku.append(line.split(','))
@@ -15,15 +15,11 @@ def printSudoku():
     for j in range (0, 9):
         print('|', end='')
         print(' ', end='')
-        for i in range (0,3):
+        for i in range (0,9):
             print(sudoku[j][i], end=' ')
-        print('|', end=' ')
-        for i in range (3,6):
-            print(sudoku[j][i], end=' ')
-        print('|', end=' ')
-        for i in range (6,9):
-            print(sudoku[j][i], end=' ')
-        print('|')
+            if (i%3 == 2):
+                print('|', end=' ')
+        print('')
         if (j%3 == 2):
             print("* - - - * - - - * - - - *")
 
@@ -137,10 +133,10 @@ def updateNumbers():
     else:
         return False
 
-printSudoku()
+#printSudoku()
 while not checkComplete():
     if not updateNumbers():
         print ("infinite loop, stopped")
         break
 printSudoku()
-checkComplete()
+#checkComplete()
