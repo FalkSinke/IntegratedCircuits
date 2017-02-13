@@ -33,7 +33,7 @@ def checkRow(rownumber):
         return 1
     else:
         return 0
-
+ 
 #checks if specific column is complete
 def checkColumn(columnNumber):
     column = []
