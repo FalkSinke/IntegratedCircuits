@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-def readSudoku():
+def initSudoku():
     with open("puzzle2.sudoku") as f:
         sudoku = []
         for line in f.read().split():
@@ -12,7 +12,7 @@ def readSudoku():
     return sudoku
 
 def execute():
-    s = readSudoku()
+    s = initSudoku()
     while not checkComplete(s):
         if not updateNumbers(s):
             print ("infinite loop, stopped")
