@@ -6,8 +6,8 @@ def readSudoku():
         for line in f.read().split():
             sudoku.append(line.split(','))
 
-    for i in range (0, 9):
-        for j in range (0, 9):
+    for i in range (9):
+        for j in range (9):
             sudoku[i][j] = int(sudoku[i][j])
     return sudoku
 
@@ -22,10 +22,10 @@ def execute():
 # prints the whole sudoku
 def printSudoku(sudoku):
     print("* - - - * - - - * - - - *")
-    for j in range (0, 9):
+    for j in range (9):
         print('|', end='')
         print(' ', end='')
-        for i in range (0,9):
+        for i in range (9):
             print(sudoku[j][i], end=' ')
             if (i%3 == 2):
                 print('|', end=' ')
@@ -47,7 +47,7 @@ def checkRow(sudoku, rownumber):
 # checks if specific column is complete
 def checkColumn(sudoku, columnNumber):
     column = []
-    for i in range (0,9):
+    for i in range (9):
         column.append(sudoku[i][columnNumber])
     checkcount = 0;
     for i in range(1, 10):
@@ -81,10 +81,10 @@ def checkComplete(sudoku):
     columns = 0
     blocks = 0
 
-    for i in range (0,9):
+    for i in range (9):
         rows += checkRow(sudoku, i)
         columns += checkColumn(sudoku, 1)
-        for j in range (0,9):
+        for j in range (9):
             if i%3 == 0 and j%3 == 0:
                 blocks += checkBlock(sudoku, i,j)
     if rows + columns + blocks == 27:
@@ -111,7 +111,7 @@ def numInRow(sudoku, row, number):
 
 # checks if number is in given column
 def numInColumn(sudoku, column, number):
-    for i in range (0,9):
+    for i in range (9):
         if sudoku[i][column] == number:
             return True
     return False
@@ -120,12 +120,12 @@ def numInColumn(sudoku, column, number):
 # possible
 def updateNumbers(sudoku):
     inProgress = 0
-    for row in range (0,9):
-        for column in range (0,9):
+    for row in range (9):
+        for column in range (9):
             if sudoku[row][column] == 0:
                 numbers = []
                 for i in range (1,10):
-                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,
+                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
                             row,column,i) or numInColumn(sudoku, column,i)):
                         numbers.append(i)
                 if len(numbers) == 1:
