@@ -1,18 +1,15 @@
 from __future__ import print_function
 #test comment
 def readSudoku():
-    with open("puzzle2.sudoku") as f:
+    with open("puzzle1.sudoku") as f:
         sudoku = []
         for line in f.read().split():
-            sudoku.append(line.split(','))
-
-    for i in range (9):
-        for j in range (9):
-            sudoku[i][j] = int(sudoku[i][j])
+            sudoku.append([int(e) for e in line.split(",")])
     return sudoku
 
 def execute():
     s = readSudoku()
+    printSudoku(s)
     while not checkComplete(s):
         if not updateNumbers(s):
             print ("infinite loop, stopped")
