@@ -9,6 +9,7 @@ def readSudoku():
     for i in range (9):
         for j in range (9):
             sudoku[i][j] = int(sudoku[i][j])
+    printSudoku(sudoku)
     return sudoku
 
 def execute():
