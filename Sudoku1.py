@@ -2,7 +2,7 @@ from __future__ import print_function
 #test comment
 def readSudoku():
     with open("puzzle1.sudoku") as f:
-        sudoku = []
+        sudoku = [[1,2,3],[1,2,3],3,4,5]
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
     return sudoku
@@ -74,6 +74,9 @@ def checkBlock(sudoku, column, row):
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
+
+
+
     rows = 0
     columns = 0
     blocks = 0
@@ -128,6 +131,7 @@ def updateNumbers(sudoku):
                 if len(numbers) == 1:
                     sudoku[row][column] = numbers[0]
                     inProgress = 1;
+                #else statement append
     return inProgress == 1
 
 execute()
