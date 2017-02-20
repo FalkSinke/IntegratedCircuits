@@ -122,16 +122,28 @@ def updateNumbers(sudoku):
     inProgress = 0
     for row in range (9):
         for column in range (9):
-            if sudoku[row][column] == 0:
-                numbers = []
-                for i in range (1,10):
-                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
-                            row,column,i) or numInColumn(sudoku, column,i)):
-                        numbers.append(i)
-                if len(numbers) == 1:
-                    sudoku[row][column] = numbers[0]
-                    inProgress = 1;
-                #else statement append
+            if(isdigit(sudoku[row][column]))
+                if sudoku[row][column] == 0:
+                    numbers = []
+                    for i in range (1,10):
+                        if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
+                                row,column,i) or numInColumn(sudoku, column,i)):
+                            numbers.append(i)
+                    if len(numbers) == 1:
+                        sudoku[row][column] = numbers[0]
+                        inProgress = 1
+                    else:
+                        sudoku[row][column] = numbers
+                        inProgress = 1
+            else:
+                for i in sudoku[row][column]:
+                    if (numInRow(sudoku, row,i) or numInBlock(sudoku,\
+                                row,column,i) or numInColumn(sudoku, column,i)):
+                        sudoku[row][column].remove(i)
+                        inProgress = 1
+                    if len(sudoku[row][column] == 1):
+                        sudoku[row][column] = sudoku[row][column][0]
+                        inProgress = 1
     return inProgress == 1
 
 execute()
