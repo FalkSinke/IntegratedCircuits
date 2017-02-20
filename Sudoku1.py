@@ -76,7 +76,7 @@ def updateNumbers(sudoku):
     inProgress = 0
     for row in range (9):
         for column in range (9):
-            if(isdigit(sudoku[row][column]))
+            if sudoku[row][column]).isdigit:
                 if sudoku[row][column] == 0:
                     numbers = []
                     for i in range (1,10):
