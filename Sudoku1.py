@@ -2,7 +2,7 @@ from __future__ import print_function
 #test comment
 def readSudoku():
     with open("puzzle1.sudoku") as f:
-        sudoku = [[1,2,3],[1,2,3],3,4,5]
+        sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
     return sudoku
@@ -30,47 +30,6 @@ def printSudoku(sudoku):
         if (j%3 == 2):
             print("* - - - * - - - * - - - *")
 
-# checks if specific row is complete
-def checkRow(sudoku, rownumber):
-    checkcount = 0;
-    for i in range (1,10):
-        if i in sudoku[rownumber]:
-            checkcount = checkcount + 1;
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
-# checks if specific column is complete
-def checkColumn(sudoku, columnNumber):
-    column = []
-    for i in range (9):
-        column.append(sudoku[i][columnNumber])
-    checkcount = 0;
-    for i in range(1, 10):
-        if i in column:
-            checkcount += 1
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
-# insert left upper corner of block
-# take in account, left upper corner is 0,0
-def checkBlock(sudoku, column, row):
-    numbers = []
-    for i in range (column, column + 3):
-        for j in range (row, row + 3):
-            numbers.append(sudoku[j][i])
-    checkcount = 0;
-    for i in range(1, 10):
-        if i in numbers:
-            checkcount += 1
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
@@ -83,6 +42,7 @@ def checkComplete(sudoku):
                 for k in range (1, 10):
                     if not numInBlock(sudoku, i, j, k):
                         return False
+    print("Sudoku complete, well done!")
     return True
 
 # checking function if a number is in the block of given location
@@ -124,7 +84,7 @@ def updateNumbers(sudoku):
                         numbers.append(i)
                 if len(numbers) == 1:
                     sudoku[row][column] = numbers[0]
-                    inProgress = 1;
+                    inProgress = 1
                 #else statement append
     return inProgress == 1
 
