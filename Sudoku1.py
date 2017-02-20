@@ -2,7 +2,7 @@ from __future__ import print_function
 #test comment
 def readSudoku():
     with open("puzzle1.sudoku") as f:
-        sudoku = [[1,2,3],[1,2,3],3,4,5]
+        sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
     return sudoku
@@ -30,66 +30,20 @@ def printSudoku(sudoku):
         if (j%3 == 2):
             print("* - - - * - - - * - - - *")
 
-# checks if specific row is complete
-def checkRow(sudoku, rownumber):
-    checkcount = 0;
-    for i in range (1,10):
-        if i in sudoku[rownumber]:
-            checkcount = checkcount + 1;
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
-# checks if specific column is complete
-def checkColumn(sudoku, columnNumber):
-    column = []
-    for i in range (9):
-        column.append(sudoku[i][columnNumber])
-    checkcount = 0;
-    for i in range(1, 10):
-        if i in column:
-            checkcount += 1
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
-# insert left upper corner of block
-# take in account, left upper corner is 0,0
-def checkBlock(sudoku, column, row):
-    numbers = []
-    for i in range (column, column + 3):
-        for j in range (row, row + 3):
-            numbers.append(sudoku[j][i])
-    checkcount = 0;
-    for i in range(1, 10):
-        if i in numbers:
-            checkcount += 1
-    if checkcount == 9:
-        return 1
-    else:
-        return 0
-
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
-
-
-
-    rows = 0
-    columns = 0
-    blocks = 0
-
     for i in range (9):
-        rows += checkRow(sudoku, i)
-        columns += checkColumn(sudoku, 1)
+        for k in range (1, 10):
+            if not numInRow(sudoku, i, k) or not numInColumn(sudoku, i, k):
+                return False
         for j in range (9):
             if i%3 == 0 and j%3 == 0:
-                blocks += checkBlock(sudoku, i,j)
-    if rows + columns + blocks == 27:
-        print("You completed the sudoku!")
-        return True
+                for k in range (1, 10):
+                    if not numInBlock(sudoku, i, j, k):
+                        return False
+    print("Sudoku complete, well done!")
+    return True
 
 # checking function if a number is in the block of given location
 def numInBlock(sudoku, row, column, number):
