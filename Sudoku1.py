@@ -74,22 +74,16 @@ def checkBlock(sudoku, column, row):
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
-
-
-
-    rows = 0
-    columns = 0
-    blocks = 0
-
     for i in range (9):
-        rows += checkRow(sudoku, i)
-        columns += checkColumn(sudoku, 1)
+        for k in range (1, 10):
+            if not numInRow(sudoku, i, k) or not numInColumn(sudoku, i, k):
+                return False
         for j in range (9):
             if i%3 == 0 and j%3 == 0:
-                blocks += checkBlock(sudoku, i,j)
-    if rows + columns + blocks == 27:
-        print("You completed the sudoku!")
-        return True
+                for k in range (1, 10):
+                    if not numInBlock(sudoku, i, j, k):
+                        return False
+    return True
 
 # checking function if a number is in the block of given location
 def numInBlock(sudoku, row, column, number):
