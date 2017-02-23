@@ -1,7 +1,8 @@
 from __future__ import print_function
+import math
 #test comment
 def readSudoku():
-    with open("puzzle4.sudoku") as f:
+    with open("puzzle3.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
@@ -16,30 +17,40 @@ def execute():
             break
     printSudoku(s)
 
+def printHorizontalDevide(sudoku, blocksize):
+    blocks = len(sudoku) / blocksize
+    print("* ", end='')
+    for j in range (len(sudoku)):
+        if (j % blocksize == 0):
+            print("* ", end='')
+            print("- ", end='')
+    #print("*")
+
 # prints the whole sudoku
 def printSudoku(sudoku):
+    blocksize = round(math.sqrt(len(sudoku)))
     print("* - - - * - - - * - - - *")
-    for j in range (9):
+    for j in range (len(sudoku)):
         print('|', end='')
         print(' ', end='')
-        for i in range (9):
+        for i in range (len(sudoku[0])):
             print(sudoku[j][i], end=' ')
-            if (i%3 == 2):
+            if (i % blocksize == 2):
                 print('|', end=' ')
         print('')
-        if (j%3 == 2):
+        if (j % blocksize == 2):
             print("* - - - * - - - * - - - *")
 
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
-    for i in range (9):
-        for k in range (1, 10):
+    for i in range (len(sudoku)):
+        for k in range (1, len(sudoku) + 1):
             if not numInRow(sudoku, i, k) or not numInColumn(sudoku, i, k):
                 return False
-        for j in range (9):
+        for j in range (len(sudoku[0])):
             if i%3 == 0 and j%3 == 0:
-                for k in range (1, 10):
+                for k in range (1, len(sudoku) + 1):
                     if not numInBlock(sudoku, i, j, k):
                         return False
     print("Sudoku complete, well done!")
@@ -57,7 +68,7 @@ def numInBlock(sudoku, row, column, number):
 
 # checks if number is in given row
 def numInRow(sudoku, row, number):
-    return any(sudoku[row][i] == number for i in range(9))
+    return any(sudoku[row][i] == number for i in range(len(sudoku)))
     #for i in range (0,9):
     #    if sudoku[row][i] == number:
     #        return True
@@ -65,7 +76,7 @@ def numInRow(sudoku, row, number):
 
 # checks if number is in given column
 def numInColumn(sudoku, column, number):
-    for i in range (9):
+    for i in range (len(sudoku[0])):
         if sudoku[i][column] == number:
             return True
     return False
@@ -74,12 +85,12 @@ def numInColumn(sudoku, column, number):
 # possible
 def updateNumbers(sudoku):
     inProgress = 0
-    for row in range (9):
-        for column in range (9):
+    for row in range (len(sudoku)):
+        for column in range (len(sudoku[0])):
             if isinstance(sudoku[row][column], int):
                 if sudoku[row][column] == 0:
                     numbers = []
-                    for i in range (1,10):
+                    for i in range (1, len(sudoku) + 1):
                         if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
                                 row,column,i) or numInColumn(sudoku, column,i)):
                             numbers.append(i)
