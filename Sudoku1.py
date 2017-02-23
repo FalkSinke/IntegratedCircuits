@@ -18,18 +18,16 @@ def execute():
     printSudoku(s)
 
 def printHorizontalDevide(sudoku, blocksize):
-    blocks = len(sudoku) / blocksize
-    print("* ", end='')
     for j in range (len(sudoku)):
         if (j % blocksize == 0):
             print("* ", end='')
-            print("- ", end='')
-    #print("*")
+        print("- ", end='')
+    print("*")
 
 # prints the whole sudoku
 def printSudoku(sudoku):
     blocksize = round(math.sqrt(len(sudoku)))
-    print("* - - - * - - - * - - - *")
+    printHorizontalDevide(sudoku, blocksize)
     for j in range (len(sudoku)):
         print('|', end='')
         print(' ', end='')
@@ -39,7 +37,7 @@ def printSudoku(sudoku):
                 print('|', end=' ')
         print('')
         if (j % blocksize == 2):
-            print("* - - - * - - - * - - - *")
+            printHorizontalDevide(sudoku, blocksize)
 
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
