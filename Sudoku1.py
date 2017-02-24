@@ -54,6 +54,8 @@ def checkComplete(sudoku):
     print("Sudoku complete, well done!")
     return True
 
+
+
 # checking function if a number is in the block of given location
 def numInBlock(sudoku, row, column, number):
     row -= row % 3
