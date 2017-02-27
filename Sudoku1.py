@@ -2,7 +2,7 @@ from __future__ import print_function
 import math
 #test comment
 def readSudoku():
-    with open("puzzle3.sudoku") as f:
+    with open("puzzle6.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
@@ -53,8 +53,6 @@ def checkComplete(sudoku):
                         return False
     print("Sudoku complete, well done!")
     return True
-
-
 
 # checking function if a number is in the block of given location
 def numInBlock(sudoku, row, column, number):
@@ -110,6 +108,8 @@ def updateNumbers(sudoku):
                         sudoku[row][column] = sudoku[row][column][0]
                         inProgress = 1
     return inProgress == 1
+
+
 
 execute()
 
