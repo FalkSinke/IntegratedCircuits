@@ -3,7 +3,7 @@ import math
 import copy
 #test comment
 def readSudoku():
-    with open("puzzle6.sudoku") as f:
+    with open("puzzle4.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
@@ -30,7 +30,7 @@ def printHorizontalDevide(sudoku, blocksize):
 
 # prints the whole sudoku
 def printSudoku(sudoku):
-    blocksize = round(math.sqrt(len(sudoku)))
+    blocksize = int(math.sqrt(len(sudoku)))
     printHorizontalDevide(sudoku, blocksize)
     for j in range (len(sudoku)):
         print('|', end='')
@@ -46,12 +46,13 @@ def printSudoku(sudoku):
 # checks how many rows, columns and blocks are completed,
 # gives completed value to
 def checkComplete(sudoku):
+    blocksize = int(math.sqrt(len(sudoku)))
     for i in range (len(sudoku)):
         for k in range (1, len(sudoku) + 1):
             if not numInRow(sudoku, i, k) or not numInColumn(sudoku, i, k):
                 return False
         for j in range (len(sudoku[0])):
-            if i%3 == 0 and j%3 == 0:
+            if i%blocksize == 0 and j%blocksize == 0:
                 for k in range (1, len(sudoku) + 1):
                     if not numInBlock(sudoku, i, j, k):
                         return False
@@ -59,10 +60,11 @@ def checkComplete(sudoku):
 
 # checking function if a number is in the block of given location
 def numInBlock(sudoku, row, column, number):
-    row -= row % 3
-    column -= column % 3
-    for i in range(column, column + 3):
-        for j in range(row, row + 3):
+    blocksize = int(math.sqrt(len(sudoku)))
+    row -= row % blocksize
+    column -= column % blocksize
+    for i in range(column, column + blocksize):
+        for j in range(row, row + blocksize):
             if sudoku[j][i] == number:
                 return True
     return False
@@ -132,5 +134,3 @@ def solveSudoku(sudoku):
 
 
 execute()
-
-#test commit122
