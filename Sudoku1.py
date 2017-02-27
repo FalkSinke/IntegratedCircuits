@@ -1,5 +1,6 @@
 from __future__ import print_function
 import math
+import copy
 #test comment
 def readSudoku():
     with open("puzzle6.sudoku") as f:
@@ -14,6 +15,11 @@ def execute():
     while not checkComplete(s):
         if not updateNumbers(s):
             print ("infinite loop, stopped")
+            printSudoku(s)
+            if solveSudoku(s):
+                print("completed!")
+            else:
+                print("unsolvable")
             break
     printSudoku(s)
 
@@ -108,6 +114,20 @@ def updateNumbers(sudoku):
                         sudoku[row][column] = sudoku[row][column][0]
                         inProgress = 1
     return inProgress == 1
+
+def solveSudoku(sudoku):
+    if checkComplete(sudoku):
+        printSudoku(sudoku)
+        return True
+    for row in range(len(sudoku)):
+        for column in range(len(sudoku[0])):
+            if not isinstance(sudoku[row][column], int):
+                sudokucopy = copy.deepcopy(sudoku)
+                for i in sudoku[row][column]:
+                    sudokucopy[row][column] = i
+                    if solveSudoku(sudokucopy):
+                        return True
+                return False
 
 
 
