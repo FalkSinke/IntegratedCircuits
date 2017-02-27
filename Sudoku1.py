@@ -11,17 +11,15 @@ def readSudoku():
 
 def execute():
     s = readSudoku()
+    print("The not completed sudoku: ")
     printSudoku(s)
     while not checkComplete(s):
         if not updateNumbers(s):
-            print ("infinite loop, stopped")
-            printSudoku(s)
             if solveSudoku(s):
-                print("completed!")
+                break
             else:
-                print("unsolvable")
+                print("This sudoku is unsolvable.")
             break
-    printSudoku(s)
 
 def printHorizontalDevide(sudoku, blocksize):
     for j in range (len(sudoku)):
@@ -57,7 +55,6 @@ def checkComplete(sudoku):
                 for k in range (1, len(sudoku) + 1):
                     if not numInBlock(sudoku, i, j, k):
                         return False
-    print("Sudoku complete, well done!")
     return True
 
 # checking function if a number is in the block of given location
@@ -117,6 +114,7 @@ def updateNumbers(sudoku):
 
 def solveSudoku(sudoku):
     if checkComplete(sudoku):
+        print("The completed sudoku is: ")
         printSudoku(sudoku)
         return True
     for row in range(len(sudoku)):
@@ -124,9 +122,11 @@ def solveSudoku(sudoku):
             if not isinstance(sudoku[row][column], int):
                 sudokucopy = copy.deepcopy(sudoku)
                 for i in sudoku[row][column]:
-                    sudokucopy[row][column] = i
-                    if solveSudoku(sudokucopy):
-                        return True
+                    if not(numInRow(sudokucopy, row, i) or numInColumn(sudokucopy, column, i)\
+                            or numInBlock(sudokucopy, row, column, i)):
+                        sudokucopy[row][column] = i
+                        if solveSudoku(sudokucopy):
+                            return True
                 return False
 
 
