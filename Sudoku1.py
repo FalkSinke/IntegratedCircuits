@@ -90,6 +90,8 @@ def numInColumn(sudoku, column, number):
             return True
     return False
 
+# Fills in all numbers that are certain and initialises
+# lists of possibilities
 def initialisePossibilities(sudoku):
     for row in range (len(sudoku)):
         for column in range (len(sudoku[0])):
@@ -104,6 +106,8 @@ def initialisePossibilities(sudoku):
                 else:
                     sudoku[row][column] = numbers
 
+# Updates lists of possibilities and return 0 if
+# it can't update anymore.
 def updatePossibilities(sudoku):
     inProgress = 0
     for row in range(len(sudoku)):
@@ -118,43 +122,6 @@ def updatePossibilities(sudoku):
                         sudoku[row][column] = sudoku[row][column][0]
                         inProgress = 1
     return inProgress == 1
-
-# iterates through whole sudoku, updates each value where
-# only 1 number possible
-'''
-def initialisePossibilities(sudoku):
-    inProgress = 0
-    for row in range (len(sudoku)):
-        for column in range (len(sudoku[0])):
-            if isinstance(sudoku[row][column], int):
-                if sudoku[row][column] == 0:
-                    numbers = []
-                    for i in range (1, len(sudoku) + 1):
-                        if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
-                                row,column,i) or \
-                                numInColumn(sudoku, column,i)):
-                            numbers.append(i)
-                    if len(numbers) == 1:
-                        sudoku[row][column] = numbers[0]
-                        inProgress = 1
-                    else:
-                        sudoku[row][column] = numbers
-                        inProgress = 1
-
-            else:
-                for i in sudoku[row][column]:
-                    if (numInRow(sudoku, row,i) or \
-                            numInBlock(sudoku, row,column,i) or \
-                            numInColumn(sudoku, column,i)):
-                        sudoku[row][column].remove(i)
-                        inProgress = 1
-                    if len(sudoku[row][column]) == 1:
-                        sudoku[row][column] = sudoku[row][column][0]
-                        inProgress = 1
-    return inProgress == 1
-'''
-
-
 
 # This code searches for the answer to the sudoku using depthfirst.
 # It iterates through the possibilities inside the array.
@@ -178,7 +145,5 @@ def solveSudoku(sudoku):
                         if solveSudoku(sudokucopy):
                             return True
                 return False
-
-
 
 execute()
