@@ -42,6 +42,7 @@ def execute(filename):
         print("The completed sudoku is: ")
         printSudoku(s)
 
+# prints horizontal line for visualisation
 def printHorizontalDevide(sudoku, blocksize):
     for j in range (len(sudoku)):
         if (j % blocksize == 0):
