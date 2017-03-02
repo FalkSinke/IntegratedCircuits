@@ -15,16 +15,20 @@ def readSudoku(filename):
 
 # iterates through the 6 puzzles:
 def runMultipleSudokus():
-    for i in range(1,6):
-        execute("puzzle" i ".sudoku")
+        execute("puzzle1.sudoku")
+        execute("puzzle2.sudoku")
+        execute("puzzle3.sudoku")
+        execute("puzzle4.sudoku")
+        execute("puzzle5.sudoku")
+        execute("puzzle6.sudoku")
 
 # Tries to solve the sudoku the easy way (updateNumbers)
 # and completes it (if necessary) with a pruning depth-first
 # algorithm (solveSudoku).
 def execute(filename):
     s = readSudoku(filename)
-    print("Unsolved sudoku " filename)
-    print("The not completed sudoku: ")
+    print(" ")
+    print("Unsolved sudoku ", filename)
     printSudoku(s)
     initialisePossibilities(s)
     while not checkComplete(s):
@@ -35,7 +39,7 @@ def execute(filename):
                 print("This sudoku is unsolvable.")
             break
     if checkComplete(s):
-        print("Completed the sudoku!")
+        print("The completed sudoku is: ")
         printSudoku(s)
 
 def printHorizontalDevide(sudoku, blocksize):
