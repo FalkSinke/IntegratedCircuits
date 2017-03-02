@@ -15,12 +15,9 @@ def readSudoku(filename):
 
 # iterates through the 6 puzzles:
 def runMultipleSudokus():
-        execute("puzzle1.sudoku")
-        execute("puzzle2.sudoku")
-        execute("puzzle3.sudoku")
-        execute("puzzle4.sudoku")
-        execute("puzzle5.sudoku")
-        execute("puzzle6.sudoku")
+    for i in range(1, 7):
+        execute("puzzle{}.sudoku".format(i))
+
 
 # Tries to solve the sudoku the easy way (updateNumbers)
 # and completes it (if necessary) with a pruning depth-first
