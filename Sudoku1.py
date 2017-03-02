@@ -2,6 +2,8 @@ from __future__ import print_function
 import math
 import copy
 
+# Falk Sinke, Lucas Fijen en Claartje Barkhof
+
 # Reads the sudoku text, and translates it
 # into a 2D list.
 def readSudoku(filename):
