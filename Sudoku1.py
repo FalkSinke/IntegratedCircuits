@@ -18,18 +18,15 @@ def execute():
     s = readSudoku()
     print("The not completed sudoku: ")
     printSudoku(s)
+    initialisePossibilities(s)
     while not checkComplete(s):
-        initialisePossibilities(s)
         if not updatePossibilities(s):
-            if checkComplete(s):
-                printSudoku(s)
-                break
-            else:
                 if solveSudoku(s):
-                    break
+                    return
                 else:
                     print("This sudoku is unsolvable.")
                 break
+    printSudoku(s)
 
 def printHorizontalDevide(sudoku, blocksize):
     for j in range (len(sudoku)):
