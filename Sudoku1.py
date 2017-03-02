@@ -4,18 +4,22 @@ import copy
 
 # Reads the sudoku text, and translates it
 # into a 2D list.
-def readSudoku():
-    with open("puzzle3.sudoku") as f:
+def readSudoku(filename):
+    with open(filename) as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
     return sudoku
 
+def runMultipleSudokus():
+    for i in range(1,6):
+        execute("puzzle"i".sudoku")
+
 # Tries to solve the sudoku the easy way (updateNumbers)
 # and completes it (if necessary) with a pruning depth-first
 # algorithm (solveSudoku).
-def execute():
-    s = readSudoku()
+def execute(filename):
+    s = readSudoku(filename)
     print("The not completed sudoku: ")
     printSudoku(s)
     initialisePossibilities(s)
@@ -182,5 +186,4 @@ def solveSudoku(sudoku):
                 return False
 
 
-
-execute()
+runMultipleSudokus()
