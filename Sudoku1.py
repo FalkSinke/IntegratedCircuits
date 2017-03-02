@@ -5,7 +5,7 @@ import copy
 # Reads the sudoku text, and translates it
 # into a 2D list.
 def readSudoku():
-    with open("puzzle3.sudoku") as f:
+    with open("puzzle1.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
@@ -135,7 +135,8 @@ def initialisePossibilities(sudoku):
                     numbers = []
                     for i in range (1, len(sudoku) + 1):
                         if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
-                                row,column,i) or numInColumn(sudoku, column,i)):
+                                row,column,i) or \
+                                numInColumn(sudoku, column,i)):
                             numbers.append(i)
                     if len(numbers) == 1:
                         sudoku[row][column] = numbers[0]
@@ -146,8 +147,9 @@ def initialisePossibilities(sudoku):
 
             else:
                 for i in sudoku[row][column]:
-                    if (numInRow(sudoku, row,i) or numInBlock(sudoku,\
-                                row,column,i) or numInColumn(sudoku, column,i)):
+                    if (numInRow(sudoku, row,i) or \
+                            numInBlock(sudoku, row,column,i) or \
+                            numInColumn(sudoku, column,i)):
                         sudoku[row][column].remove(i)
                         inProgress = 1
                     if len(sudoku[row][column]) == 1:
@@ -167,8 +169,9 @@ def solveSudoku(sudoku):
             if not isinstance(sudoku[row][column], int):
                 sudokucopy = copy.deepcopy(sudoku)
                 for i in sudoku[row][column]:
-                    if not(numInRow(sudokucopy, row, i) or numInColumn(sudokucopy, column, i)\
-                            or numInBlock(sudokucopy, row, column, i)):
+                    if not(numInRow(sudokucopy, row, i) or \
+                            numInColumn(sudokucopy, column, i) or\
+                            numInBlock(sudokucopy, row, column, i)):
                         sudokucopy[row][column] = i
                         if solveSudoku(sudokucopy):
                             return True
