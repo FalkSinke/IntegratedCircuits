@@ -3,7 +3,7 @@ import math
 import copy
 #test comment
 def readSudoku():
-    with open("puzzle1.sudoku") as f:
+    with open("puzzle3.sudoku") as f:
         sudoku = []
         for line in f.read().split():
             sudoku.append([int(e) for e in line.split(",")])
@@ -71,11 +71,11 @@ def numInBlock(sudoku, row, column, number):
 
 # checks if number is in given row
 def numInRow(sudoku, row, number):
-    return any(sudoku[row][i] == number for i in range(len(sudoku)))
-    #for i in range (0,9):
-    #    if sudoku[row][i] == number:
-    #        return True
-    #return False
+    #return any(sudoku[row][i] == number for i in range(len(sudoku)))
+    for i in range (len(sudoku)):
+        if sudoku[row][i] == number:
+            return True
+    return False
 
 # checks if number is in given column
 def numInColumn(sudoku, column, number):
