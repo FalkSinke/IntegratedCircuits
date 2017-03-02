@@ -21,12 +21,14 @@ def execute():
     initialisePossibilities(s)
     while not checkComplete(s):
         if not updatePossibilities(s):
-                if solveSudoku(s):
-                    return
-                else:
-                    print("This sudoku is unsolvable.")
+            if solveSudoku(s):
                 break
-    printSudoku(s)
+            else:
+                print("This sudoku is unsolvable.")
+            break
+    if checkComplete(s):
+        print("Completed the sudoku!")
+        printSudoku(s)
 
 def printHorizontalDevide(sudoku, blocksize):
     for j in range (len(sudoku)):
