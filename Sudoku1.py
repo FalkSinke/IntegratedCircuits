@@ -1,7 +1,9 @@
 from __future__ import print_function
 import math
 import copy
-#test comment
+
+# Reads the sudoku text, and translates it
+# into a 2D list.
 def readSudoku():
     with open("puzzle3.sudoku") as f:
         sudoku = []
@@ -9,17 +11,25 @@ def readSudoku():
             sudoku.append([int(e) for e in line.split(",")])
     return sudoku
 
+# Tries to solve the sudoku the easy way (updateNumbers)
+# and completes it (if necessary) with a pruning depth-first
+# algorithm (solveSudoku).
 def execute():
     s = readSudoku()
     print("The not completed sudoku: ")
     printSudoku(s)
     while not checkComplete(s):
-        if not updateNumbers(s):
-            if solveSudoku(s):
+        initialisePossibilities(s)
+        if not updatePossibilities(s):
+            if checkComplete(s):
+                printSudoku(s)
                 break
             else:
-                print("This sudoku is unsolvable.")
-            break
+                if solveSudoku(s):
+                    break
+                else:
+                    print("This sudoku is unsolvable.")
+                break
 
 def printHorizontalDevide(sudoku, blocksize):
     for j in range (len(sudoku)):
@@ -83,9 +93,39 @@ def numInColumn(sudoku, column, number):
             return True
     return False
 
-# iterates through whole sudoku, updates each value where only 1 number
-# possible
-def updateNumbers(sudoku):
+def initialisePossibilities(sudoku):
+    for row in range (len(sudoku)):
+        for column in range (len(sudoku[0])):
+            if sudoku[row][column] == 0:
+                numbers = []
+                for i in range (1, len(sudoku) + 1):
+                    if not (numInRow(sudoku, row,i) or numInBlock(sudoku,\
+                            row,column,i) or numInColumn(sudoku, column,i)):
+                        numbers.append(i)
+                if len(numbers) == 1:
+                    sudoku[row][column] = numbers[0]
+                else:
+                    sudoku[row][column] = numbers
+
+def updatePossibilities(sudoku):
+    inProgress = 0
+    for row in range(len(sudoku)):
+        for column in range(len(sudoku[0])):
+            if isinstance(sudoku[row][column], list):
+                for i in sudoku[row][column]:
+                    if (    numInRow(sudoku, row, i) or numInBlock(sudoku, \
+                            row, column, i) or numInColumn(sudoku, column, i)):
+                        sudoku[row][column].remove(i)
+                        inProgress = 1
+                    if len(sudoku[row][column]) == 1:
+                        sudoku[row][column] = sudoku[row][column][0]
+                        inProgress = 1
+    return inProgress == 1
+
+# iterates through whole sudoku, updates each value where
+# only 1 number possible
+'''
+def initialisePossibilities(sudoku):
     inProgress = 0
     for row in range (len(sudoku)):
         for column in range (len(sudoku[0])):
@@ -103,6 +143,7 @@ def updateNumbers(sudoku):
                     else:
                         sudoku[row][column] = numbers
                         inProgress = 1
+
             else:
                 for i in sudoku[row][column]:
                     if (numInRow(sudoku, row,i) or \
@@ -114,6 +155,8 @@ def updateNumbers(sudoku):
                         sudoku[row][column] = sudoku[row][column][0]
                         inProgress = 1
     return inProgress == 1
+'''
+
 
 
 # This code searches for the answer to the sudoku using depthfirst.
