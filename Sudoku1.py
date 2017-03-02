@@ -117,7 +117,8 @@ def updateNumbers(sudoku):
     return inProgress == 1
 
 
-# This code iterates through the possibilities inside the array.
+# This code searches for the answer to the sudoku using depthfirst.
+# It iterates through the possibilities inside the array.
 # It uses pruning to prevent conflicting input, which decreases the possible
 # answers drasticly.
 # Returns a false if the predicate can't find an answer in this branch.
