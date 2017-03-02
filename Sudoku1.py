@@ -116,6 +116,11 @@ def updateNumbers(sudoku):
                         inProgress = 1
     return inProgress == 1
 
+
+# This code iterates through the possibilities inside the array.
+# It uses pruning to prevent conflicting input, which decreases the possible
+# answers drasticly.
+# Returns a false if the predicate can't find an answer in this branch.
 def solveSudoku(sudoku):
     if checkComplete(sudoku):
         print("The completed sudoku is: ")
