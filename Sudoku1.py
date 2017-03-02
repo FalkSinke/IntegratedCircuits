@@ -71,7 +71,6 @@ def numInBlock(sudoku, row, column, number):
 
 # checks if number is in given row
 def numInRow(sudoku, row, number):
-    #return any(sudoku[row][i] == number for i in range(len(sudoku)))
     for i in range (len(sudoku)):
         if sudoku[row][i] == number:
             return True
