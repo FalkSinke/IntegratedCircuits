@@ -1,0 +1,17 @@
+node
+    value = a
+
+    up
+    down
+    right
+    left
+    lower
+    higher
+
+
+    uplink
+    downlink
+    rightlink
+    leftlink
+    lowerlink
+    higherlink
