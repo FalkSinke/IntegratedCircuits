@@ -2,7 +2,7 @@ from __future__ import print_function
 
 def initialise():
     # Width, length, height
-    grid = [[[0 for i in range(2)] for j in range(7)] for k in range(7)]
+    grid = [[["." for i in range(2)] for j in range(7)] for k in range(7)]
 
     with open("coordinates_test.txt") as f:
         for line in f.read().split():
