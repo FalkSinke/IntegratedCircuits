@@ -1,4 +1,5 @@
 from __future__ import print_function
+from math import sqrt
 
 def initialise():
     # Width, length, height
@@ -22,5 +23,8 @@ def printgrid(grid, z):
         for i in range (len(grid[0])):
             print(grid[j][i][z], end=' ')
         print('')
+
+def calc_admissable(path_length, xn, yn, zn, xd, yd, zd):
+    return (sqrt(((xn-xd)**2)+((yn-yd)**2)+((zn-zd)**2)) + path_length + 1)
 
 initialise()
