@@ -52,8 +52,8 @@ def options(grid, x, y, z):
     return options
 
 #Calculates total path length from A to B going by point n
-def calc_admissable(path_length, xn, yn, zn, xd, yd, zd):
-    return (sqrt(((xn-xd)**2)+((yn-yd)**2)+((zn-zd)**2)) + path_length + 1)
+def calc_admissable(path_length, a, b):
+    return (sqrt(((a[1] - b[1]) ** 2) + ((a[2] - b[2])**2) + ((a[3] - b[3])\
+            ** 2)) + path_length + 1)
 
 initialise()
-
