@@ -51,8 +51,9 @@ def options(grid, point):
     return options
 
 #Calculates total path length from A to B going by point n
-def calc_admissable(path_length, xn, yn, zn, xd, yd, zd):
-    return (sqrt(((xn-xd)**2)+((yn-yd)**2)+((zn-zd)**2)) + path_length + 1)
+def calc_admissable(path_length, a, b):
+    return (sqrt(((a[1] - b[1]) ** 2) + ((a[2] - b[2])**2) + ((a[3] - b[3])\
+            ** 2)) + path_length + 1)
 
 def find_route([x1, y1, z1], [x2, y2, z2]):
     options = move([x1, y1, z1])
@@ -61,4 +62,3 @@ def find_route([x1, y1, z1], [x2, y2, z2]):
 
 
 main()
-
