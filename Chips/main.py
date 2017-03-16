@@ -9,6 +9,7 @@ def main():
     grid = initialise()
     printgrid(grid, 0)
     print('')
+    find_route(grid, [0,1,0], [0,6,0])
 
 def initialise():
     # Width, length, height
@@ -33,6 +34,10 @@ def printgrid(grid, z):
 def options(grid, point):
     options = []
 
+    x = point[0]
+    y = point[1]
+    z = point[2]
+
     if x != x_max and grid[x+1][y][z] == '.':
         options.append([x+1, y, z])
     if x!= 0 and grid[x - 1][y][z] == '.':
@@ -52,13 +57,33 @@ def options(grid, point):
 
 #Calculates total path length from A to B going by point n
 def calc_admissable(path_length, a, b):
-    return (sqrt(((a[1] - b[1]) ** 2) + ((a[2] - b[2])**2) + ((a[3] - b[3])\
+    return (sqrt(((a[0] - b[0]) ** 2) + ((a[1] - b[1])**2) + ((a[2] - b[2])\
             ** 2)) + path_length + 1)
 
-def find_route([x1, y1, z1], [x2, y2, z2]):
-    options = move([x1, y1, z1])
-    for i in options:
-        admissables.append(calc_admissable(path_length, i, end_point))
+'''
+als je snelste route van a naar b wil vinden:
+    - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
+     stop al die paths in queue (met als sorteer variabele hemelsbreed
+    vanaf daar + afgelegde afstand).
+    - pak eerste item uit queue en expand
+    - als next step = final, dan #WIN
 
+
+    python heeft prioqueue
+    q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
+
+'''
+
+
+def find_route(grid, a, b):
+    path_length = 0
+    options2 = options(grid, a)
+    best_step = [calc_admissable(path_length, options2[0], b), options2[0]]
+    for i in options2:
+        admissable = calc_admissable(path_length, i, b)
+        if admissable < best_step[0]:
+            best_step[1] = i
+            best_step[0] = admissable
+    print(best_step)
 
 main()
