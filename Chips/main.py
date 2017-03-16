@@ -5,6 +5,11 @@ x_max = 6
 y_max = 6
 z_max = 1
 
+def main():
+    grid = initialise()
+    printgrid(grid, 0)
+    print('')
+
 def initialise():
     # Width, length, height
     grid = [[["." for i in range(z_max+1)] for j in range(x_max+1)] for k in range(y_max+1)]
@@ -17,13 +22,7 @@ def initialise():
             y = int(array[2])
             print(x, y)
             grid[x][y][0] = name
-
-    printgrid(grid, 0)
-    print('')
-    printgrid(grid, 1)
-
-    options(grid, 1, 0, 0)
-
+    return grid
 
 def printgrid(grid, z):
     for j in range (len(grid)):
@@ -31,7 +30,7 @@ def printgrid(grid, z):
             print(grid[j][i][z], end=' ')
         print('')
 
-def options(grid, x, y, z):
+def options(grid, point):
     options = []
 
     if x != x_max and grid[x+1][y][z] == '.':
@@ -55,5 +54,11 @@ def options(grid, x, y, z):
 def calc_admissable(path_length, xn, yn, zn, xd, yd, zd):
     return (sqrt(((xn-xd)**2)+((yn-yd)**2)+((zn-zd)**2)) + path_length + 1)
 
-initialise()
+def find_route([x1, y1, z1], [x2, y2, z2]):
+    options = move([x1, y1, z1])
+    for i in options:
+        admissables.append(calc_admissable(path_length, i, end_point))
+
+
+main()
 
