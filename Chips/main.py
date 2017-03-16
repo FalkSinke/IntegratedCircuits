@@ -1,4 +1,5 @@
 from __future__ import print_function
+from math import sqrt
 
 x_max = 6
 y_max = 6
@@ -50,6 +51,9 @@ def options(grid, x, y, z):
 
     return options
 
+#Calculates total path length from A to B going by point n
+def calc_admissable(path_length, xn, yn, zn, xd, yd, zd):
+    return (sqrt(((xn-xd)**2)+((yn-yd)**2)+((zn-zd)**2)) + path_length + 1)
 
 initialise()
 
