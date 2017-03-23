@@ -87,8 +87,12 @@ def a_star(grid, a, b):
     admissable = calc_admissable(a, b)
     visited = []
     prioq.put((admissable, [a]))
+<<<<<<< HEAD
+    while prioq.qsize() != 0:
+=======
 
     while (prioq.qsize() != 0):
+>>>>>>> a7b0aceac984b8cd8410a406dd40ad59697fc7dd
         current = prioq.get()
         current_path = current[1]
         if calc_admissable(current_path[-1], b) == 1:
