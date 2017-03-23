@@ -11,7 +11,9 @@ def main():
     grid = initialise()
     printgrid(grid, 0)
     print('')
-    a_star(grid, [1, 1, 0], [2, 5, 0])
+    for i in a_star(grid, [1, 1, 0], [2, 5, 0]):
+        grid[i[0]][i[1]][i[2]] = 'o'
+    printgrid(grid, 0)
 
 def initialise():
     # Width, length, height
@@ -33,27 +35,25 @@ def printgrid(grid, z):
             print(grid[j][i][z], end=' ')
         print('')
 
-def options(grid, point):
+def options(grid, point, finalpoint):
     options = []
 
     x = point[0]
     y = point[1]
     z = point[2]
 
-    if x != x_max and grid[x+1][y][z] == '.':
+    if x != x_max and grid[x+1][y][z] == ('.' or finalpoint):
         options.append([x+1, y, z])
-    if x!= 0 and grid[x - 1][y][z] == '.':
+    if x!= 0 and grid[x - 1][y][z] == ('.' or finalpoint):
         options.append([x - 1, y, z])
-    if y != y_max and grid[x][y+1][z] == '.':
+    if y != y_max and grid[x][y+1][z] == ('.' or finalpoint):
         options.append([x, y+1, z])
-    if y != 0 and grid[x][y-1][z]:
+    if y != 0 and grid[x][y-1][z] == ('.' or finalpoint):
         options.append([x, y-1, z])
-    if z != z_max and grid[x][y][z+1] == '.':
+    if z != z_max and grid[x][y][z+1] == ('.' or finalpoint):
         options.append([x, y, z+1])
-    if z != 0 and grid[x][y][z-1] == '.':
+    if z != 0 and grid[x][y][z-1] == ('.' or finalpoint):
         options.append([x, y, z-1])
-
-    print(options)
 
     return options
 
@@ -89,23 +89,24 @@ def find_route(grid, a, b):
 
 def a_star(grid, a, b):
     prioq = Q.PriorityQueue()
-    admissable = calc_admissable(0, a, b)
+    admissable = calc_admissable(a, b)
     visited = []
-    prioq.put((admissable, [a])
+    prioq.put((admissable, [a]))
 
-    while prioq.qsize() != 0:
+    while (prioq.qsize() != 0):
         current = prioq.get()
         current_path = current[1]
-        if(current_path[-1] == b):
+        if (current_path[-1] == b):
+            print(current_path)
             return current_path
-        options = options(grid, current_path[-1])
-        for i in options:
-            if(i not in visited):
+        optiont = options(grid, current_path[-1], b)
+        for i in optiont:
+            if (i not in visited):
                 visited.append(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
-                next_path = path.append(i)
-                prioq.put((admissable + len(current_path), next_path))
+                path.append(i)
+                prioq.put((admissable + len(path), path))
 
 
 main()
