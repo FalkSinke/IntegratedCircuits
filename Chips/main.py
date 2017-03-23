@@ -90,10 +90,9 @@ def find_route(grid, a, b):
 
 def a_star(grid, a, b):
     prioq = Q.PriorityQueue()
-    admissable = calc_admissable(0, a, b)
+    admissable = calc_admissable(a, b)
     visited = []
-    prioq.put((admissable, [a])
-
+    prioq.put((admissable, [a]))
     while prioq.qsize() != 0:
         current = prioq.get()
         current_path = current[1]
