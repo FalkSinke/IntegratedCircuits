@@ -1,5 +1,6 @@
 from __future__ import print_function
-from __future__ import queue
+import Queue as Q
+import copy
 from math import sqrt
 
 x_max = 6
@@ -10,7 +11,7 @@ def main():
     grid = initialise()
     printgrid(grid, 0)
     print('')
-    find_route(grid, [0,1,0], [0,6,0])
+    a_star(grid, [1, 1, 0], [2, 5, 0])
 
 def initialise():
     # Width, length, height
@@ -58,7 +59,7 @@ def options(grid, point):
 
 #Calculates total path length from A to B going by point n + 1
 def calc_admissable(path_length, a, b):
-    return path_length + 1 + abs(a[0] - b[0]) + abs(a[1]-b[1]) + \
+    return path_length + abs(a[0] - b[0]) + abs(a[1]-b[1]) + \
            abs(a[2] - b[2])
 
 '''
@@ -88,5 +89,24 @@ def find_route(grid, a, b):
     print(best_step)
 
 def a_star(grid, a, b):
+    prioq = Q.PriorityQueue()
+    admissable = calc_admissable(0, a, b)
+    visited = []
+    prioq.put((admissable, [a])
+
+    while prioq.qsize() != 0:
+        current = prioq.get()
+        current_path = current[1]
+        if(current_path[-1] == b):
+            return current_path
+        options = options(grid, current_path[-1])
+        for i in options:
+            if(i not in visited):
+                visited.append(i)
+                admissable = calc_admissable(i, b)
+                path = copy.copy(current_path)
+                next_path = path.append(i)
+                prioq.put((admissable + len(current_path), next_path))
+
 
 main()
