@@ -56,10 +56,10 @@ def options(grid, point):
 
     return options
 
-#Calculates total path length from A to B going by point n
+#Calculates total path length from A to B going by point n + 1
 def calc_admissable(path_length, a, b):
-    return (sqrt(((a[0] - b[0]) ** 2) + ((a[1] - b[1])**2) + ((a[2] - b[2])\
-            ** 2)) + path_length + 1)
+    return path_length + 1 + abs(a[0] - b[0]) + abs(a[1]-b[1]) + \
+           abs(a[2] - b[2])
 
 '''
 als je snelste route van a naar b wil vinden:
@@ -88,6 +88,5 @@ def find_route(grid, a, b):
     print(best_step)
 
 def a_star(grid, a, b):
-
 
 main()
