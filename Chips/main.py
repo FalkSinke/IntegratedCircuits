@@ -11,19 +11,12 @@ def main():
     grid = initialise()
 
     with open("netlist_text.txt") as netlist:
+        counter = 0
         for line in f.read().split():
             array = line.split(", ")
-            x1 = points[array[0]]
-            x2 = points[array[1]]
+            printpath(grid, a_star(grid, points[array[0]], points[array[1]], counter++);
+            printgrid(grid, 0)
 
-
-    printgrid(grid, 0)
-    print('')
-    printpath(grid, a_star(grid, [1, 1, 0], [2, 5, 0]), 'o')
-    printgrid(grid, 0)
-    printpath(grid, a_star(grid, [1, 4, 0], [6, 1, 0]), 'x')
-    printgrid(grid, 0)
-    printgrid(grid, 1)
 
 def initialise():
     # Width, length, height
