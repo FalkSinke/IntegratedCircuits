@@ -11,8 +11,11 @@ def main():
     grid = initialise()
     printgrid(grid, 0)
     print('')
-    a_star(grid, [1, 1, 0], [2, 5, 0])
+    printpath(grid, a_star(grid, [1, 1, 0], [2, 5, 0]), 'o')
     printgrid(grid, 0)
+    printpath(grid, a_star(grid, [1, 4, 0], [6, 1, 0]), 'x')
+    printgrid(grid, 0)
+    printgrid(grid, 1)
 
 def initialise():
     # Width, length, height
@@ -28,30 +31,34 @@ def initialise():
             grid[x][y][0] = name
     return grid
 
+def printpath(grid, path, icon):
+    for x,y,z in path[1:]:
+        grid[x][y][z] = icon
+
 def printgrid(grid, z):
+    print("layer: ", z)
     for j in range (len(grid)):
         for i in range (len(grid[0])):
             print(grid[j][i][z], end=' ')
         print('')
+    print('')
 
-def options(grid, point, finalpoint):
+def options(grid, point):
     options = []
 
-    x = point[0]
-    y = point[1]
-    z = point[2]
+    x, y, z = point
 
-    if x != x_max and (grid[x+1][y][z] == '.' or grid[x+1][y][z] == finalpoint):
+    if x != x_max and grid[x+1][y][z] == '.':
         options.append([x+1, y, z])
-    if x!= 0 and (grid[x - 1][y][z] == '.' or grid[x - 1][y][z] == finalpoint):
+    if x!= 0 and grid[x - 1][y][z] == '.':
         options.append([x - 1, y, z])
-    if y != y_max and (grid[x][y+1][z] == '.' or grid[x][y+1][z] == finalpoint):
+    if y != y_max and grid[x][y+1][z] == '.':
         options.append([x, y+1, z])
-    if y != 0 and (grid[x][y-1][z] == '.' or grid[x][y-1][z] == finalpoint):
+    if y != 0 and grid[x][y-1][z] == '.':
         options.append([x, y-1, z])
-    if z != z_max and (grid[x][y][z+1] == '.' or grid[x][y][z+1] == finalpoint):
+    if z != z_max and grid[x][y][z+1] == '.':
         options.append([x, y, z+1])
-    if z != 0 and (grid[x][y][z-1] == '.' or grid[x][y][z-1] == finalpoint):
+    if z != 0 and grid[x][y][z-1] == '.':
         options.append([x, y, z-1])
 
     return options
@@ -84,20 +91,18 @@ def a_star(grid, a, b):
     while (prioq.qsize() != 0):
         current = prioq.get()
         current_path = current[1]
-
-        if (current_path[-1] == b):
+        if calc_admissable(current_path[-1], b) == 1:
             print(current_path)
             return current_path
 
-        possible = options(grid, current_path[-1], b)
+        possible = options(grid, current_path[-1])
         for i in possible:
             if (i not in visited):
                 visited.append(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
                 path.append(i)
-                print(path)
                 prioq.put((admissable + len(path), path))
-
+    print("hi")
 
 main()
