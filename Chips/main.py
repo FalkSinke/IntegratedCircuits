@@ -22,6 +22,8 @@ def initialise():
     # Width, length, height
     grid = [[["." for i in range(z_max+1)] for j in range(x_max+1)] for k in range(y_max+1)]
 
+    dict = {}
+
     with open("coordinates_test.txt") as f:
         for line in f.read().split():
             array = line.split(",")
@@ -30,7 +32,8 @@ def initialise():
             y = int(array[2])
             print(x, y)
             grid[x][y][0] = name
-    return grid
+            dict[name] = [x, y, 0]
+    return (grid, dict)
 
 def printpath(grid, path, icon):
     for x,y,z in path[1:]:
