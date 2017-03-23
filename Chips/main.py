@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import queue
 from math import sqrt
 
 x_max = 6
@@ -63,7 +64,7 @@ def calc_admissable(path_length, a, b):
 '''
 als je snelste route van a naar b wil vinden:
     - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
-     stop al die paths in queue (met als sorteer variabele hemelsbreed
+     stop al die paths in queue (met als sorteer variabele dx+dy+dz
     vanaf daar + afgelegde afstand).
     - pak eerste item uit queue en expand
     - als next step = final, dan #WIN
@@ -85,5 +86,8 @@ def find_route(grid, a, b):
             best_step[1] = i
             best_step[0] = admissable
     print(best_step)
+
+def a_star(grid, a, b):
+
 
 main()
