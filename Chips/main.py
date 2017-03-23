@@ -9,6 +9,14 @@ z_max = 1
 
 def main():
     grid = initialise()
+
+    with open("netlist_text.txt") as netlist:
+        for line in f.read().split():
+            array = line.split(", ")
+            x1 = points[array[0]]
+            x2 = points[array[1]]
+
+
     printgrid(grid, 0)
     print('')
     printpath(grid, a_star(grid, [1, 1, 0], [2, 5, 0]), 'o')
@@ -87,12 +95,8 @@ def a_star(grid, a, b):
     admissable = calc_admissable(a, b)
     visited = []
     prioq.put((admissable, [a]))
-<<<<<<< HEAD
-    while prioq.qsize() != 0:
-=======
 
     while (prioq.qsize() != 0):
->>>>>>> a7b0aceac984b8cd8410a406dd40ad59697fc7dd
         current = prioq.get()
         current_path = current[1]
         if calc_admissable(current_path[-1], b) == 1:
@@ -107,6 +111,6 @@ def a_star(grid, a, b):
                 path = copy.copy(current_path)
                 path.append(i)
                 prioq.put((admissable + len(path), path))
-    print("hi")
+    print("No solution", a, b)
 
 main()
