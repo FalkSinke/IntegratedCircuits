@@ -8,14 +8,18 @@ y_max = 6
 z_max = 1
 
 def main():
-    grid = initialise()
-
-    with open("netlist_text.txt") as netlist:
+    init = initialise()
+    grid = init[0]
+    points = init[1]
+    with open("netlist_test.txt") as netlist:
         counter = 0
-        for line in f.read().split():
-            array = line.split(", ")
-            printpath(grid, a_star(grid, points[array[0]], points[array[1]], counter++);
+        for line in netlist.read().split():
+            array = line.split(",")
+            printpath(grid, a_star(grid, points[array[0]], points[array[1]]), counter)
+            counter = counter + 1
+
             printgrid(grid, 0)
+            printgrid(grid, 1)
 
 
 def initialise():
