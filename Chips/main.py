@@ -8,8 +8,8 @@ def initialise():
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
-            x = int(array[1])
-            y = int(array[2])
+            x = int(array[2])
+            y = int(array[1])
             print(x, y)
             grid[x][y][0] = name
 
