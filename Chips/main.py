@@ -1,5 +1,5 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 from math import sqrt
 
@@ -22,7 +22,7 @@ def main():
         counter = 0
         for line in netlist.read().split():
             array = line.split(",")
-            printpath(grid, a_star(grid, points[array[0]], points[array[1]]), counter)
+            printpath(grid, a_star(grid, points[array[0]], points[array[1]]), '*')
             counter = counter + 1
             printgrid(grid, 0)
             printgrid(grid, 1)
@@ -57,6 +57,29 @@ def printgrid(grid, z):
         print('')
     print('')
 
+def get_penalty_grid_point(grid, options):
+    penalised_options = []
+
+    for x, y, z in options:
+        counter = 1
+        penalty = 10
+        if x != x_max and grid[x + 1][y][z].isdigit():
+            counter += penalty
+        if x != 0 and grid[x - 1][y][z].isdigit():
+            counter += penalty
+        if y != y_max and grid[x][y + 1][z].isdigit():
+            counter += penalty
+        if y != 0 and grid[x][y - 1][z].isdigit():
+            counter += penalty
+        if z != z_max and grid[x][y][z + 1].isdigit():
+            counter += penalty
+        if z != 0 and grid[x][y][z - 1].isdigit():
+            counter += penalty
+
+        penalised_options.append([[x, y, z], counter])
+
+    return penalised_options
+
 def options(grid, point):
     options = []
 
@@ -75,7 +98,7 @@ def options(grid, point):
     if z != 0 and grid[x][y][z-1] == '.':
         options.append([x, y, z-1])
 
-    return options
+    return get_penalty_grid_point(grid, options)
 
 #Calculates total path length from A to B going by point n + 1
 def calc_admissable(a, b):
@@ -109,12 +132,13 @@ def a_star(grid, a, b):
             return current_path
 
         possible = options(grid, current_path[-1])
-        for i in possible:
+        for i, k in possible:
             if (i not in visited):
                 visited.append(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
-                path.append(i)
+                for j in range(0,k):
+                    path.append(i)
                 prioq.put((admissable + len(path), path))
     print("No solution", a, b)
 
