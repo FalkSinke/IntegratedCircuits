@@ -30,7 +30,7 @@ def main():
 
 def initialise():
     # Width, length, height
-    grid = [[["." for i in range(z_max+1)] for j in range(x_max+1)] for k in range(y_max+1)]
+    grid = [[["." for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
 
     dict = {}
 
