@@ -1,5 +1,5 @@
 from __future__ import print_function
-import Queue as Q
+import queue as Q
 import copy
 from math import sqrt
 
@@ -24,7 +24,6 @@ def main():
             array = line.split(",")
             printpath(grid, a_star(grid, points[array[0]], points[array[1]]), counter)
             counter = counter + 1
-
             printgrid(grid, 0)
             printgrid(grid, 1)
 
