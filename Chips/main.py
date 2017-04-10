@@ -10,8 +10,8 @@ y_max = 6
 z_max = 1
 '''
 
-x_max = 12
-y_max = 17
+x_max = 17
+y_max = 12
 z_max = 7
 
 def main():
