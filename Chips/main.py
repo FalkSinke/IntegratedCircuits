@@ -32,8 +32,8 @@ def initialise():
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
-            x = int(array[2])
-            y = int(array[1])
+            x = int(array[1])
+            y = int(array[2])
             print(x, y)
             grid[x][y][0] = name
             dict[name] = [x, y, 0]
@@ -88,7 +88,6 @@ als je snelste route van a naar b wil vinden:
     q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
 
 '''
-
 
 def a_star(grid, a, b):
     prioq = Q.PriorityQueue()
