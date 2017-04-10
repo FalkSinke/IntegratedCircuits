@@ -3,9 +3,16 @@ import queue as Q
 import copy
 from math import sqrt
 
+'''
+First test version:
 x_max = 6
 y_max = 6
 z_max = 1
+'''
+
+x_max = 17
+y_max = 12
+z_max = 7
 
 def main():
     init = initialise()
