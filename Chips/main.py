@@ -18,7 +18,7 @@ def main():
     init = initialise()
     grid = init[0]
     points = init[1]
-    with open("netlist_test.txt") as netlist:
+    with open("netlist_1.txt") as netlist:
         counter = 0
         for line in netlist.read().split():
             array = line.split(",")
@@ -34,7 +34,7 @@ def initialise():
 
     dict = {}
 
-    with open("coordinates_test.txt") as f:
+    with open("coordinates_netlist1.txt") as f:
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
