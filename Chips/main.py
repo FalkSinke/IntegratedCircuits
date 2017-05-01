@@ -175,5 +175,6 @@ def a_star(grid, penalty_grid, a, b):
                     path.append(i)
                 prioq.put((admissable + len(path), path))
     print("No solution", a, b)
+    return []
 
 main()
