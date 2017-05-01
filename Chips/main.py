@@ -10,11 +10,16 @@ x_max = 6
 y_max = 6
 z_max = 1
 '''
-
+'''
+netlist 1-3
 x_max = 17
 y_max = 12
 z_max = 7
+'''
 
+x_max = 17
+y_max = 16
+z_max = 7
 
 def main():
     values = []
@@ -30,12 +35,12 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_1.txt") as netlist:
+        with open("netlist_6.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
                 array = line.split(",")
-                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 0)], points[str(int(array[1]) + 0)])
+                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
                 printpath(grid, path, '*')
                 if len(path) > 0:
                     succes = succes + 1
@@ -59,7 +64,7 @@ def initialise():
 
     dict = {}
 
-    with open("coordinates_netlist1.txt") as f:
+    with open("coordinates_netlist4.txt") as f:
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
