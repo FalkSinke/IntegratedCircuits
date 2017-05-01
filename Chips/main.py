@@ -56,7 +56,10 @@ def printgrid(grid, z):
     print("layer: ", z)
     for j in range (len(grid)):
         for i in range (len(grid[0])):
-            print(grid[j][i][z], end=' ')
+            if len(str(grid[j][i][z])) == 2:
+                print(grid[j][i][z], end=' ')
+            else:
+                print(grid[j][i][z], end='  ')
         print('')
     print('')
 
