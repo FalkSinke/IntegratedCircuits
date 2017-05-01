@@ -1,5 +1,5 @@
 from __future__ import print_function
-import Queue as Q
+import queue as Q
 import copy
 from math import sqrt
 
@@ -14,25 +14,34 @@ x_max = 17
 y_max = 12
 z_max = 7
 
-def main():
-    init = initialise()
-    grid = init[0]
-    points = init[1]
-    penalty_grid = initialise_penalty_grid(points)
-    printgrid(penalty_grid, 0)
-    printgrid(grid, 0)
-    #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
-    #printgrid(grid, 0)
-    #rintgrid(grid, 1)
-    with open("netlist_1.txt") as netlist:
-        counter = 0
-        for line in netlist.read().split():
-            array = line.split(",")
-            printpath(grid, a_star(grid, penalty_grid, points[array[0]], points[array[1]]), '*')
-            counter = counter + 1
-        printgrid(grid, 0)
-        printgrid(grid, 1)
 
+def main():
+    for heat in range(17,25):
+        init = initialise()
+        grid = init[0]
+        points = init[1]
+        penalty_grid = initialise_penalty_grid(points, heat)
+        #printgrid(penalty_grid, 0)
+        #printgrid(grid, 0)
+        #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
+        #printgrid(grid, 0)
+        #rintgrid(grid, 1)
+        with open("netlist_3.txt") as netlist:
+            counter = 0
+            succes = 0
+            for line in netlist.read().split():
+                array = line.split(",")
+                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
+                printpath(grid, path, '*')
+                if len(path) > 0:
+                    succes = succes + 1
+                counter = counter + 1
+            #printgrid(grid, 0)
+            #printgrid(grid, 1)
+            #printgrid(grid, 7)
+        print("Heat:", heat)
+        print(succes,  "/", counter)
+        print('')
 
 def initialise():
     # Width, length, height
@@ -104,9 +113,8 @@ resultaten tabel: alleen a*, met penalty (verschillende soorten), hillclimber?
 
 '''
 
-def initialise_penalty_grid(points_dict):
+def initialise_penalty_grid(points_dict, heat):
     penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
-    heat = 10
 
     for x in range(len(penalty_grid)):
         for y in range(len(penalty_grid[x])):
@@ -168,7 +176,7 @@ def a_star(grid, penalty_grid, a, b):
         current = prioq.get()
         current_path = current[1]
         if calc_admissable(current_path[-1], b) == 1:
-            print(current_path)
+            #print(current_path)
             return current_path
 
         possible = options(grid, penalty_grid, current_path[-1])
@@ -180,7 +188,7 @@ def a_star(grid, penalty_grid, a, b):
                 for j in range(0,k):
                     path.append(i)
                 prioq.put((admissable + len(path), path))
-    print("No solution", a, b)
+    #print("No solution", a, b)
     return []
 
 main()
