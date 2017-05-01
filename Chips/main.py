@@ -200,8 +200,7 @@ def a_star(grid, penalty_grid, a, b):
                 visited.append(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
-                path.append(i)
-                for j in range(0,k):
+                for j in range(0,k+1):
                     path.append(i)
                 prioq.put((admissable + len(path), path))
     #print("No solution", a, b)
