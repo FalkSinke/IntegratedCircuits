@@ -16,25 +16,26 @@ z_max = 7
 
 
 def main():
-    for heat in range(17,25):
+    for heat in range(0,50):
         init = initialise()
         grid = init[0]
         points = init[1]
         penalty_grid = initialise_penalty_grid(points, heat)
-        #printgrid(penalty_grid, 0)
+        #printgrid(penalty_grid, 1)
         #printgrid(grid, 0)
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_3.txt") as netlist:
+        with open("netlist_1.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
                 array = line.split(",")
-                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
+                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 0)], points[str(int(array[1]) + 0)])
                 printpath(grid, path, '*')
                 if len(path) > 0:
                     succes = succes + 1
+                    #print(array[0], array[1])
                 counter = counter + 1
             #printgrid(grid, 0)
             #printgrid(grid, 1)
@@ -185,6 +186,7 @@ def a_star(grid, penalty_grid, a, b):
                 visited.append(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
+                path.append(i)
                 for j in range(0,k):
                     path.append(i)
                 prioq.put((admissable + len(path), path))
