@@ -21,14 +21,17 @@ def main():
     penalty_grid = initialise_penalty_grid(points)
     printgrid(penalty_grid, 0)
     printgrid(grid, 0)
+    #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
+    #printgrid(grid, 0)
+    #rintgrid(grid, 1)
     with open("netlist_1.txt") as netlist:
         counter = 0
         for line in netlist.read().split():
             array = line.split(",")
             printpath(grid, a_star(grid, penalty_grid, points[array[0]], points[array[1]]), '*')
             counter = counter + 1
-            printgrid(grid, 0)
-            printgrid(grid, 1)
+        printgrid(grid, 0)
+        printgrid(grid, 1)
 
 
 def initialise():
@@ -43,7 +46,7 @@ def initialise():
             name = array[0]
             x = int(array[1])
             y = int(array[2])
-            print(x, y)
+            # print(x, y)
             grid[x][y][0] = name
             dict[name] = [x, y, 0]
     return (grid, dict)
@@ -127,13 +130,13 @@ def options(grid, penalty_grid, point):
     if x!= 0 and grid[x-1][y][z] == '.':
         options.append([[x-1, y, z], penalty_grid[x-1][y][z]])
     if y != y_max and grid[x][y+1][z] == '.':
-        options.append([[y+1, y, z], penalty_grid[y+1][y][z]])
+        options.append([[x, y+1, z], penalty_grid[x][y+1][z]])
     if y != 0 and grid[x][y-1][z] == '.':
-        options.append([[y-1, y, z], penalty_grid[y-1][y][z]])
+        options.append([[x, y-1, z], penalty_grid[x][y-1][z]])
     if z != z_max and grid[x][y][z+1] == '.':
-        options.append([[z+1, y, z], penalty_grid[z+1][y][z]])
+        options.append([[x, y, z+1], penalty_grid[x][y][z+1]])
     if z != 0 and grid[x][y][z-1] == '.':
-        options.append([[z-1, y, z], penalty_grid[z-1][y][z]])
+        options.append([[x, y, z-1], penalty_grid[x][y][z-1]])
 
     return options
 
