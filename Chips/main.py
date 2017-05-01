@@ -1,6 +1,7 @@
 from __future__ import print_function
 import queue as Q
 import copy
+import matplotlib.pyplot as plt
 from math import sqrt
 
 '''
@@ -16,7 +17,10 @@ z_max = 7
 
 
 def main():
-    for heat in range(0,50):
+    values = []
+    heatvals = []
+    highestpos = []
+    for heat in range(0,25):
         init = initialise()
         grid = init[0]
         points = init[1]
@@ -40,9 +44,14 @@ def main():
             #printgrid(grid, 0)
             #printgrid(grid, 1)
             #printgrid(grid, 7)
+        values.append(succes)
+        heatvals.append(heat)
+        highestpos.append(counter)
         print("Heat:", heat)
         print(succes,  "/", counter)
         print('')
+    plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
+    plt.show()
 
 def initialise():
     # Width, length, height
