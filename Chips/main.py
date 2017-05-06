@@ -1,8 +1,10 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 from math import sqrt
+# import cProfile
+
 
 '''
 First test version:
@@ -25,7 +27,12 @@ def main():
     values = []
     heatvals = []
     highestpos = []
-    for heat in range(0,25):
+    pathlist = []
+    penalty_grid = []
+    failed_pathlist = []
+    total_length = 0
+    for heat in range(13,14):
+        total_length = 0
         init = initialise()
         grid = init[0]
         points = init[1]
@@ -35,7 +42,7 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_6.txt") as netlist:
+        with open("netlist_5.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
@@ -43,8 +50,14 @@ def main():
                 path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
                 printpath(grid, path, '*')
                 if len(path) > 0:
+                    path = remove_duplicates(path)
+                    pathlist.append(path)
+                    total_length += (len(path) - 1)
                     succes = succes + 1
                     #print(array[0], array[1])
+                else:
+                    failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
+                    failed_pathlist.append(failed_path)
                 counter = counter + 1
             #printgrid(grid, 0)
             #printgrid(grid, 1)
@@ -55,8 +68,10 @@ def main():
         print("Heat:", heat)
         print(succes,  "/", counter)
         print('')
+        print("total length =", total_length)
     plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
     plt.show()
+    fix(grid, pathlist, failed_pathlist, penalty_grid)
 
 def initialise():
     # Width, length, height
@@ -89,6 +104,13 @@ def printgrid(grid, z):
                 print(grid[j][i][z], end='  ')
         print('')
     print('')
+
+def remove_duplicates(path_duplicates):
+    path_singles = []
+    for i in path_duplicates:
+        if i not in path_singles:
+            path_singles.append(i)
+    return path_singles
 
 '''
 def get_penalty_grid_point(grid, options):
@@ -184,7 +206,7 @@ als je snelste route van a naar b wil vinden:
 def a_star(grid, penalty_grid, a, b):
     prioq = Q.PriorityQueue()
     admissable = calc_admissable(a, b)
-    visited = []
+    visited = set()
     prioq.put((admissable, [a]))
 
     while (prioq.qsize() != 0):
@@ -196,8 +218,9 @@ def a_star(grid, penalty_grid, a, b):
 
         possible = options(grid, penalty_grid, current_path[-1])
         for i, k in possible:
+            i = tuple(i)
             if (i not in visited):
-                visited.append(i)
+                visited.add(i)
                 admissable = calc_admissable(i, b)
                 path = copy.copy(current_path)
                 for j in range(0,k+1):
@@ -206,4 +229,20 @@ def a_star(grid, penalty_grid, a, b):
     #print("No solution", a, b)
     return []
 
+
+# def fix(grid, pathlist, failed_pathlist, penalty_grid)
+
+'''
+Make fix function
+- pak item (path) uit pathlist, zet in intermediate list
+- leg een path uit failedpathslist
+- als succes leg andere
+
+misschien eerst korte of eerst lange
+
+'''
+
 main()
+
+
+# cProfile.run('main()')
