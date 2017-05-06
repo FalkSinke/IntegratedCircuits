@@ -70,7 +70,8 @@ def main():
         print('')
         print("total length =", total_length)
     plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
-    plt.show()
+    #plt.show()
+    print("fit it!")
     fix(grid, pathlist, failed_pathlist, penalty_grid)
 
 def initialise():
@@ -229,8 +230,40 @@ def a_star(grid, penalty_grid, a, b):
     #print("No solution", a, b)
     return []
 
-
-# def fix(grid, pathlist, failed_pathlist, penalty_grid)
+def fix(grid, pathlist, failed_pathlist, penalty_grid):
+    print(len(pathlist))
+    intermediate_pathlist = []
+    number_failedpaths = len(failed_pathlist)
+    counter = 0
+    while (counter != number_failedpaths):
+        path = pathlist[counter]
+        intermediate_pathlist.append(path)
+        pathlist.pop(counter)
+        printpath(grid, path, '.')
+        failed_path = failed_pathlist[counter]
+        print(failed_path)
+        a = failed_path[0]
+        b = failed_path[1]
+        print(a, "||", b)
+        new_path = a_star(grid, penalty_grid, a, b)
+        if new_path != []:
+            counter += 1
+            old_path = a_star(grid, penalty_grid, path[0], path[-1])
+            if old_path != []:
+                print('winwin')
+                counter = number_failedpaths
+        else:
+            print('fail')
+            while intermediate_pathlist != []:
+                path1 = intermediate_pathlist[0]
+                old_path1 = a_star(grid, penalty_grid, path1[0], path1[-1])
+                if old_path1 != []:
+                    pathlist.append(old_path1)
+                    intermediate_pathlist.pop(0)
+                    print('successs')
+                else:
+                    continue
+    print(len(pathlist))
 
 '''
 Make fix function
@@ -243,6 +276,7 @@ misschien eerst korte of eerst lange
 '''
 
 main()
+
 
 
 # cProfile.run('main()')
