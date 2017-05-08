@@ -14,10 +14,12 @@ from __future__ import print_function
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
-import numpy as np
 import matplotlib.pyplot as plt
-from mayavi import mlab
-
+import numpy as np
+import plotly
+import plotly.plotly as py
+import plotly.graph_objs as go
+import pandas as pd
 '''
 First test version:
 x_max = 6
@@ -39,38 +41,47 @@ def penalty_x(penalty_grid, X, Y):
     return penalty_grid[X][Y][0]
 
 def main():
-    heat = 8
+    heat = 1
     init = initialise()
     grid = init[0]
     points = init[1]
     penalty_grid = initialise_penalty_grid(points, heat)
 
-    for x in range(len(penalty_grid)):
-        for y in range(len(penalty_grid[x])):
-            penalties[y][x] = penalty_grid[x][y][0]
+    #for x in range(len(penalty_grid)):
+    #    for y in range(len(penalty_grid[x])):
+    #        penalties[x][y] = penalty_grid[x][y][0]
 
     surface_plot(penalty_grid)
 
-    plt.show()
+    #plt.show()
 
 def surface_plot(penalty_grid):
-        X = []
-        Y = []
-        Z = []
-        color1='#FF0058'
+    matrix = [["." for j in range(y_max+1)] for k in range(x_max+1)]
+    X = []
+    Y = []
+    Z = []
+    color1='#FF0058'
 
-        for x in range(len(penalty_grid)):
-            for y in range(len(penalty_grid[x])):
-                X.append(x)
-                Y.append(y)
-                Z.append(penalty_grid[x][y][0])
+    for x in range(len(penalty_grid)):
+        for y in range(len(penalty_grid[x])):
+            matrix[x][y] = penalty_x(penalty_grid, x, y)
+    data = [go.Surface(z=np.matrix(np.array(matrix)))]
+    print(np.array(matrix))
 
-        pts = mlab.points3d(X, Y, Z, Z)
-        mesh = mlab.pipeline.delaunay2s(pts)
-        pts.remove()
-
-        surf = mlab.pipeline.surface(mesh)
-        mlab.show()
+    layout = go.Layout(
+        title='Penaltygrid netlist 4-6',
+        #autosize=False,
+        width=1000,
+        height=900,
+        #margin=dict(
+        #    l=0,
+        #    r=50,
+        #    b=65,
+        #    t=90
+        #)
+    )
+    fig = go.Figure(data=data, layout=layout)
+    plotly.offline.plot(fig)
 
 def initialise():
     # Width, length, height
