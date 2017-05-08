@@ -53,33 +53,24 @@ def main():
 
     plt.show()
 
-def surface_plot(pathlist):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    axes = plt.gca()
-    axes.set_xlim([0, x_max])
-    axes.set_ylim([0, y_max])
-    axes.set_zlim([0, z_max])
-    axes.set_autoscale_on(False)
-    #xticks([0, 1, 2, 3])
-
-    for path in pathlist:
+def surface_plot(penalty_grid):
         X = []
         Y = []
         Z = []
         color1='#FF0058'
-        #set_markeredgecolor(color1)
-        ax.scatter(path[0][0], path[0][1], c=color1, marker='o')
-        ax.scatter(path[-1][0], path[-1][1], c=color1, marker='o')
-        for coordinate in path:
-            X.append(coordinate[0])
-            Y.append(coordinate[1])
-            Z.append(coordinate[2])
-        color = '#51CD83'
-        ax.plot_wireframe(X, Y, Z, color=color)
-    plt.axis([0, x_max, 0, y_max])
-    plt.show()
+
+        for x in range(len(penalty_grid)):
+            for y in range(len(penalty_grid[x])):
+                X.append(x)
+                Y.append(y)
+                Z.append(penalty_grid[x][y][0])
+
+        pts = mlab.points3d(X, Y, Z, Z)
+        mesh = mlab.pipeline.delaunay2s(pts)
+        pts.remove()
+
+        surf = mlab.pipeline.surface(mesh)
+        mlab.show()
 
 def initialise():
     # Width, length, height
