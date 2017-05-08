@@ -1,5 +1,5 @@
 from __future__ import print_function
-import Queue as Q
+import queue as Q
 import copy
 import matplotlib.pyplot as plt
 
@@ -32,7 +32,7 @@ def main():
     penalty_grid = []
     failed_pathlist = []
     total_length = 0
-    for heat in range(13,14):
+    for heat in range(0,5):
         total_length = 0
         init = initialise()
         grid = init[0]
@@ -43,7 +43,7 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_5.txt") as netlist:
+        with open("netlist_4.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
@@ -70,9 +70,12 @@ def main():
         print(succes,  "/", counter)
         print('')
         print("total length =", total_length)
-    plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
-    #plt.show()
-    #fix(grid, pathlist, failed_pathlist, penalty_grid)
+    line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
+    plt.setp(line1, color='#51CD83', ls='--')
+    plt.setp(line2, color='#FC0057', ls='-')
+    plt.ylabel('wires')
+    plt.xlabel('heatvalue')
+    plt.show()
 
 def initialise():
     # Width, length, height
