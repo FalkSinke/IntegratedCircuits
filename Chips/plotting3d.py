@@ -2,10 +2,8 @@ from __future__ import print_function
 import Queue as Q
 import copy
 import matplotlib.pyplot as plt
-
-
-from math import sqrt
-# import cProfile
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 '''
 First test version:
@@ -13,16 +11,16 @@ x_max = 6
 y_max = 6
 z_max = 1
 '''
-'''
-netlist 1-3
+
 x_max = 17
 y_max = 12
 z_max = 7
-'''
 
+'''
 x_max = 17
 y_max = 16
 z_max = 7
+'''
 
 def main():
     values = []
@@ -32,7 +30,7 @@ def main():
     penalty_grid = []
     failed_pathlist = []
     total_length = 0
-    for heat in range(13,14):
+    for heat in range(10,11):
         total_length = 0
         init = initialise()
         grid = init[0]
@@ -43,7 +41,7 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_5.txt") as netlist:
+        with open("netlist_1.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
@@ -70,9 +68,38 @@ def main():
         print(succes,  "/", counter)
         print('')
         print("total length =", total_length)
-    plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
-    #plt.show()
-    #fix(grid, pathlist, failed_pathlist, penalty_grid)
+        #plt.plot(heatvals, values, '--', heatvals, highestpos, 'r-')
+        #plt.show()
+        #fix(grid, pathlist, failed_pathlist, penalty_grid)
+        plotting_3d(pathlist)
+
+def plotting_3d(pathlist):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    axes = plt.gca()
+    axes.set_xlim([0, x_max])
+    axes.set_ylim([0, y_max])
+    axes.set_zlim([0, z_max])
+    axes.set_autoscale_on(False)
+    #xticks([0, 1, 2, 3])
+
+    for path in pathlist:
+        X = []
+        Y = []
+        Z = []
+        color1='#FF0058'
+        #set_markeredgecolor(color1)
+        ax.scatter(path[0][0], path[0][1], c=color1, marker='o')
+        ax.scatter(path[-1][0], path[-1][1], c=color1, marker='o')
+        for coordinate in path:
+            X.append(coordinate[0])
+            Y.append(coordinate[1])
+            Z.append(coordinate[2])
+        color = '#51CD83'
+        ax.plot_wireframe(X, Y, Z, color=color)
+    plt.axis([0, x_max, 0, y_max])
+    plt.show()
 
 def initialise():
     # Width, length, height
@@ -80,7 +107,7 @@ def initialise():
 
     dict = {}
 
-    with open("coordinates_netlist4.txt") as f:
+    with open("coordinates_netlist1.txt") as f:
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
@@ -112,44 +139,6 @@ def remove_duplicates(path_duplicates):
         if i not in path_singles:
             path_singles.append(i)
     return path_singles
-
-'''
-def get_penalty_grid_point(grid, options):
-    penalised_options = []
-
-    for x, y, z in options:
-        counter = 1
-        penalty = 10
-        if x != x_max and grid[x + 1][y][z].isdigit():
-            counter += penalty
-        if x != 0 and grid[x - 1][y][z].isdigit():
-            counter += penalty
-        if y != y_max and grid[x][y + 1][z].isdigit():
-            counter += penalty
-        if y != 0 and grid[x][y - 1][z].isdigit():
-            counter += penalty
-        if z != z_max and grid[x][y][z + 1].isdigit():
-            counter += penalty
-        if z != 0 and grid[x][y][z - 1].isdigit():
-            counter += penalty
-
-        penalised_options.append([[x, y, z], counter])
-
-    return penalised_options
-'''
-
-'''
-penalty grid DOCUMENTEREN
-    - heat varieren
-    - penalty functie varieren (linear/kwadratisch etc)
-    - proberen met andere netlists/grids
-
-
-uberhaupt documenteren van Penalty
-
-resultaten tabel: alleen a*, met penalty (verschillende soorten), hillclimber?
-
-'''
 
 def initialise_penalty_grid(points_dict, heat):
     penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
@@ -190,19 +179,6 @@ def options(grid, penalty_grid, point):
 def calc_admissable(a, b):
     return abs(a[0] - b[0]) + abs(a[1]-b[1]) + abs(a[2] - b[2])
 
-'''
-als je snelste route van a naar b wil vinden:
-    - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
-     stop al die paths in queue (met als sorteer variabele dx+dy+dz
-    vanaf daar + afgelegde afstand).
-    - pak eerste item uit queue en expand
-    - als next step = final, dan #WIN
-
-
-    python heeft prioqueue
-    q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
-
-'''
 
 def a_star(grid, penalty_grid, a, b):
     prioq = Q.PriorityQueue()
@@ -215,6 +191,7 @@ def a_star(grid, penalty_grid, a, b):
         current_path = current[1]
         if calc_admissable(current_path[-1], b) == 1:
             #print(current_path)
+            current_path.append(b)
             return current_path
 
         possible = options(grid, penalty_grid, current_path[-1])
@@ -230,51 +207,6 @@ def a_star(grid, penalty_grid, a, b):
     #print("No solution", a, b)
     return []
 
-'''
-def fix(grid, pathlist, failed_pathlist, penalty_grid):
-    print(len(pathlist))
-    intermediate_pathlist = []
-    number_failedpaths = len(failed_pathlist)
-    counter = 0
-    while (counter != number_failedpaths):
-        path = pathlist[counter]
-        intermediate_pathlist.append(path)
-        pathlist.pop(counter)
-        printpath(grid, path, '.')
-        failed_path = failed_pathlist[counter]
-        print(failed_path)
-        a = failed_path[0]
-        b = failed_path[1]
-        print(a, "||", b)
-        new_path = a_star(grid, penalty_grid, a, b)
-        if new_path != []:
-            counter += 1
-            old_path = a_star(grid, penalty_grid, path[0], path[-1])
-            if old_path != []:
-                print('winwin')
-                counter = number_failedpaths
-        else:
-            print('fail')
-            while intermediate_pathlist != []:
-                path1 = intermediate_pathlist[0]
-                old_path1 = a_star(grid, penalty_grid, path1[0], path1[-1])
-                if old_path1 != []:
-                    pathlist.append(old_path1)
-                    intermediate_pathlist.pop(0)
-                    print('successs')
-                else:
-                    continue
-    print(len(pathlist))
-'''
-'''
-Make fix function
-- pak item (path) uit pathlist, zet in intermediate list
-- leg een path uit failedpathslist
-- als succes leg andere
-
-misschien eerst korte of eerst lange
-
-'''
 
 main()
 

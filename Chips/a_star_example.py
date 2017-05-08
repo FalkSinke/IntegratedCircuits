@@ -3,26 +3,9 @@ import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 
-
-from math import sqrt
-# import cProfile
-
-'''
-First test version:
-x_max = 6
-y_max = 6
-z_max = 1
-'''
-'''
-netlist 1-3
-x_max = 17
-y_max = 12
-z_max = 7
-'''
-
-x_max = 17
-y_max = 16
-z_max = 7
+x_max = 10
+y_max = 1
+z_max = 10
 
 def main():
     values = []
@@ -32,7 +15,7 @@ def main():
     penalty_grid = []
     failed_pathlist = []
     total_length = 0
-    for heat in range(13,14):
+    for heat in range(5,6):
         total_length = 0
         init = initialise()
         grid = init[0]
@@ -43,7 +26,7 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_5.txt") as netlist:
+        with open("netlist_a_star_example") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
@@ -76,17 +59,18 @@ def main():
 
 def initialise():
     # Width, length, height
-    grid = [[["." for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
+    grid = [[["." for i in range(2)] for j in range(11)] for k in range(11)]
 
     dict = {}
 
-    with open("coordinates_netlist4.txt") as f:
+    with open("coordinates_netlist_a_star_example") as f:
         for line in f.read().split():
             array = line.split(",")
+            print(array)
             name = array[0]
             x = int(array[1])
             y = int(array[2])
-            # print(x, y)
+            print(x, y)
             grid[x][y][0] = name
             dict[name] = [x, y, 0]
     return (grid, dict)
@@ -113,46 +97,9 @@ def remove_duplicates(path_duplicates):
             path_singles.append(i)
     return path_singles
 
-'''
-def get_penalty_grid_point(grid, options):
-    penalised_options = []
-
-    for x, y, z in options:
-        counter = 1
-        penalty = 10
-        if x != x_max and grid[x + 1][y][z].isdigit():
-            counter += penalty
-        if x != 0 and grid[x - 1][y][z].isdigit():
-            counter += penalty
-        if y != y_max and grid[x][y + 1][z].isdigit():
-            counter += penalty
-        if y != 0 and grid[x][y - 1][z].isdigit():
-            counter += penalty
-        if z != z_max and grid[x][y][z + 1].isdigit():
-            counter += penalty
-        if z != 0 and grid[x][y][z - 1].isdigit():
-            counter += penalty
-
-        penalised_options.append([[x, y, z], counter])
-
-    return penalised_options
-'''
-
-'''
-penalty grid DOCUMENTEREN
-    - heat varieren
-    - penalty functie varieren (linear/kwadratisch etc)
-    - proberen met andere netlists/grids
-
-
-uberhaupt documenteren van Penalty
-
-resultaten tabel: alleen a*, met penalty (verschillende soorten), hillclimber?
-
-'''
 
 def initialise_penalty_grid(points_dict, heat):
-    penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
+    penalty_grid = [[[0 for i in range(2)] for j in range(11)] for k in range(11)]
 
     for x in range(len(penalty_grid)):
         for y in range(len(penalty_grid[x])):
@@ -190,19 +137,6 @@ def options(grid, penalty_grid, point):
 def calc_admissable(a, b):
     return abs(a[0] - b[0]) + abs(a[1]-b[1]) + abs(a[2] - b[2])
 
-'''
-als je snelste route van a naar b wil vinden:
-    - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
-     stop al die paths in queue (met als sorteer variabele dx+dy+dz
-    vanaf daar + afgelegde afstand).
-    - pak eerste item uit queue en expand
-    - als next step = final, dan #WIN
-
-
-    python heeft prioqueue
-    q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
-
-'''
 
 def a_star(grid, penalty_grid, a, b):
     prioq = Q.PriorityQueue()
@@ -230,54 +164,4 @@ def a_star(grid, penalty_grid, a, b):
     #print("No solution", a, b)
     return []
 
-'''
-def fix(grid, pathlist, failed_pathlist, penalty_grid):
-    print(len(pathlist))
-    intermediate_pathlist = []
-    number_failedpaths = len(failed_pathlist)
-    counter = 0
-    while (counter != number_failedpaths):
-        path = pathlist[counter]
-        intermediate_pathlist.append(path)
-        pathlist.pop(counter)
-        printpath(grid, path, '.')
-        failed_path = failed_pathlist[counter]
-        print(failed_path)
-        a = failed_path[0]
-        b = failed_path[1]
-        print(a, "||", b)
-        new_path = a_star(grid, penalty_grid, a, b)
-        if new_path != []:
-            counter += 1
-            old_path = a_star(grid, penalty_grid, path[0], path[-1])
-            if old_path != []:
-                print('winwin')
-                counter = number_failedpaths
-        else:
-            print('fail')
-            while intermediate_pathlist != []:
-                path1 = intermediate_pathlist[0]
-                old_path1 = a_star(grid, penalty_grid, path1[0], path1[-1])
-                if old_path1 != []:
-                    pathlist.append(old_path1)
-                    intermediate_pathlist.pop(0)
-                    print('successs')
-                else:
-                    continue
-    print(len(pathlist))
-'''
-'''
-Make fix function
-- pak item (path) uit pathlist, zet in intermediate list
-- leg een path uit failedpathslist
-- als succes leg andere
-
-misschien eerst korte of eerst lange
-
-'''
-
 main()
-
-
-
-# cProfile.run('main()')

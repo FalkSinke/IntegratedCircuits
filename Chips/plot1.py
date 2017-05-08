@@ -16,6 +16,7 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import numpy as np
 import matplotlib.pyplot as plt
+from mayavi import mlab
 
 '''
 First test version:
@@ -44,32 +45,40 @@ def main():
     points = init[1]
     penalty_grid = initialise_penalty_grid(points, heat)
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-
-    # Make data.
-    X = np.arange(0, 18, 1)
-    Y = np.arange(0, 17, 1)
-    X, Y = np.meshgrid(X, Y)
-    print(penalty_grid[0])
-    penalties = np.zeros((17, 18))
-
     for x in range(len(penalty_grid)):
         for y in range(len(penalty_grid[x])):
             penalties[y][x] = penalty_grid[x][y][0]
 
+    surface_plot(penalty_grid)
 
-    # Plot the surface.
-    surf = ax.plot_surface(X, Y, penalties)
+    plt.show()
 
-    # Customize the z axis.
-    ax.set_zlim(0, 10)
-    ax.zaxis.set_major_locator(LinearLocator(10))
-    ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+def surface_plot(pathlist):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
 
-    # Add a color bar which maps values to colors.
-    fig.colorbar(surf, shrink=0.5, aspect=5)
+    axes = plt.gca()
+    axes.set_xlim([0, x_max])
+    axes.set_ylim([0, y_max])
+    axes.set_zlim([0, z_max])
+    axes.set_autoscale_on(False)
+    #xticks([0, 1, 2, 3])
 
+    for path in pathlist:
+        X = []
+        Y = []
+        Z = []
+        color1='#FF0058'
+        #set_markeredgecolor(color1)
+        ax.scatter(path[0][0], path[0][1], c=color1, marker='o')
+        ax.scatter(path[-1][0], path[-1][1], c=color1, marker='o')
+        for coordinate in path:
+            X.append(coordinate[0])
+            Y.append(coordinate[1])
+            Z.append(coordinate[2])
+        color = '#51CD83'
+        ax.plot_wireframe(X, Y, Z, color=color)
+    plt.axis([0, x_max, 0, y_max])
     plt.show()
 
 def initialise():

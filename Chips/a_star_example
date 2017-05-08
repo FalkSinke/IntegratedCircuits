@@ -4,21 +4,6 @@ import copy
 import matplotlib.pyplot as plt
 
 
-from math import sqrt
-# import cProfile
-
-'''
-First test version:
-x_max = 6
-y_max = 6
-z_max = 1
-'''
-'''
-netlist 1-3
-x_max = 17
-y_max = 12
-z_max = 7
-'''
 
 x_max = 17
 y_max = 16
