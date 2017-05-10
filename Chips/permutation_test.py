@@ -2,6 +2,7 @@ from __future__ import print_function
 import Queue as Q
 import copy
 import matplotlib.pyplot as plt
+import random
 
 
 from math import sqrt
@@ -13,70 +14,84 @@ x_max = 6
 y_max = 6
 z_max = 1
 '''
-
+'''
 #netlist 1-3
 x_max = 17
 y_max = 12
 z_max = 7
-
 '''
+
+#netlist 4-6
 x_max = 17
 y_max = 16
 z_max = 7
-'''
+
 
 def main():
     values = []
     heatvals = []
     highestpos = []
-    pathlist = []
     penalty_grid = []
     failed_pathlist = []
+    highestscore = 0
     total_length = 0
-    for heat in range(7,8):
-        total_length = 0
-        init = initialise()
-        grid = init[0]
-        points = init[1]
-        penalty_grid = initialise_penalty_grid(points, heat)
+    for heat in range(5,20):
         #printgrid(penalty_grid, 1)
         #printgrid(grid, 0)
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_2.txt") as netlist:
-            counter = 0
-            succes = 0
+        with open("netlist_6.txt") as netlist:
+            permutation = []
             for line in netlist.read().split():
                 array = line.split(",")
-                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
-                printpath(grid, path, '*')
-                if len(path) > 0:
-                    path = remove_duplicates(path)
-                    pathlist.append(path)
-                    total_length += (len(path) - 1)
-                    succes = succes + 1
-                    #print(array[0], array[1])
-                else:
-                    failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
-                    failed_pathlist.append(failed_path)
-                counter = counter + 1
-            #printgrid(grid, 0)
-            #printgrid(grid, 1)
-            #printgrid(grid, 7)
-        values.append(succes)
-        heatvals.append(heat)
-        highestpos.append(counter)
-        print("Heat:", heat)
-        print(succes,  "/", counter)
-        print('')
-        print("total length =", total_length)
-    line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
-    plt.setp(line1, color='#51CD83', ls='--')
-    plt.setp(line2, color='#FC0057', ls='-')
-    plt.ylabel('wires')
-    plt.xlabel('heatvalue')
-    plt.show()
+                permutation.append(array)
+            print(permutation)
+            for i in range(0, 20):
+                init = initialise()
+                grid = init[0]
+                points = init[1]
+                penalty_grid = initialise_penalty_grid(points, heat)
+                counter = 0
+                succes = 0
+                pathlist = []
+                total_length = 0
+                random.shuffle(permutation)
+                print(permutation)
+                for net in permutation:
+                    path = a_star(grid, penalty_grid, points[str(int(net[0]) + 1)], points[str(int(net[1]) + 1)])
+                    printpath(grid, path, '*')
+                    if len(path) > 0:
+                        path = remove_duplicates(path)
+                        pathlist.append(path)
+                        total_length += (len(path) - 1)
+                        succes = succes + 1
+                        #print(array[0], array[1])
+                    else:
+                        failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
+                        failed_pathlist.append(failed_path)
+                    counter = counter + 1
+                #printgrid(grid, 0)
+                #printgrid(grid, 1)
+                #printgrid(grid, 7)
+            #values.append(succes)
+            #heatvals.append(heat)
+            #highestpos.append(counter)
+                if succes > highestscore:
+                    highestscore = succes
+                    print("Highest score so far =", highestscore)
+                    print("Permutation:", i)
+                    print("Heat:", heat)
+                    print(succes,  "/", counter)
+                    print('')
+                    print("total length =", total_length)
+            #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
+            #plt.setp(line1, color='#51CD83', ls='--')
+            #plt.setp(line2, color='#FC0057', ls='-')
+            #plt.ylabel('wires')
+            #plt.xlabel('heatvalue')
+            #plt.show()
+    print("HIGHSCORE =", highestscore)
 
 def initialise():
     # Width, length, height
@@ -84,7 +99,7 @@ def initialise():
 
     dict = {}
 
-    with open("coordinates_netlist1.txt") as f:
+    with open("coordinates_netlist4.txt") as f:
         for line in f.read().split():
             array = line.split(",")
             name = array[0]

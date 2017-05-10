@@ -30,7 +30,7 @@ def main():
     penalty_grid = []
     failed_pathlist = []
     total_length = 0
-    for heat in range(10,11):
+    for heat in range(7,8):
         total_length = 0
         init = initialise()
         grid = init[0]
@@ -41,7 +41,7 @@ def main():
         #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_1.txt") as netlist:
+        with open("netlist_2.txt") as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
