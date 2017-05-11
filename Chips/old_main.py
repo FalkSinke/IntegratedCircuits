@@ -1,11 +1,11 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
-import plotting3d
+
 
 from math import sqrt
-import cProfile
+# import cProfile
 
 '''
 First test version:
@@ -23,7 +23,6 @@ z_max = 7
 x_max = 17
 y_max = 16
 z_max = 7
-
 
 def main():
     values = []
@@ -52,6 +51,7 @@ def main():
                 path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
                 printpath(grid, path, '*')
                 if len(path) > 0:
+                    path = remove_duplicates(path)
                     pathlist.append(path)
                     total_length += (len(path) - 1)
                     succes = succes + 1
@@ -60,9 +60,8 @@ def main():
                     failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
                     failed_pathlist.append(failed_path)
                 counter = counter + 1
-                #print(str(int(array[0]) + 1), str(int(array[1]) + 1))
-                #printgrid(grid, 0)
-                #printgrid(grid, 1)
+            #printgrid(grid, 0)
+            #printgrid(grid, 1)
             #printgrid(grid, 7)
         values.append(succes)
         heatvals.append(heat)
@@ -71,13 +70,12 @@ def main():
         print(succes,  "/", counter)
         print('')
         print("total length =", total_length)
-    #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
-    #plt.setp(line1, color='#51CD83', ls='--')
-    #plt.setp(line2, color='#FC0057', ls='-')
-    #plt.ylabel('wires')
-    #plt.xlabel('heatvalue')
-    #plt.show()
-    #plotting3d.plotting_3d(pathlist)
+    line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
+    plt.setp(line1, color='#51CD83', ls='--')
+    plt.setp(line2, color='#FC0057', ls='-')
+    plt.ylabel('wires')
+    plt.xlabel('heatvalue')
+    plt.show()
 
 def initialise():
     # Width, length, height
@@ -177,17 +175,17 @@ def options(grid, penalty_grid, point):
     x, y, z = point
 
     if x != x_max and grid[x+1][y][z] == '.':
-       options.append([(x+1, y, z), penalty_grid[x+1][y][z]])
+       options.append([[x+1, y, z], penalty_grid[x+1][y][z]])
     if x!= 0 and grid[x-1][y][z] == '.':
-        options.append([(x-1, y, z), penalty_grid[x-1][y][z]])
+        options.append([[x-1, y, z], penalty_grid[x-1][y][z]])
     if y != y_max and grid[x][y+1][z] == '.':
-        options.append([(x, y+1, z), penalty_grid[x][y+1][z]])
+        options.append([[x, y+1, z], penalty_grid[x][y+1][z]])
     if y != 0 and grid[x][y-1][z] == '.':
-        options.append([(x, y-1, z), penalty_grid[x][y-1][z]])
+        options.append([[x, y-1, z], penalty_grid[x][y-1][z]])
     if z != z_max and grid[x][y][z+1] == '.':
-        options.append([(x, y, z+1), penalty_grid[x][y][z+1]])
+        options.append([[x, y, z+1], penalty_grid[x][y][z+1]])
     if z != 0 and grid[x][y][z-1] == '.':
-        options.append([(x, y, z-1), penalty_grid[x][y][z-1]])
+        options.append([[x, y, z-1], penalty_grid[x][y][z-1]])
 
     return options
 
@@ -209,39 +207,29 @@ als je snelste route van a naar b wil vinden:
 
 '''
 
-def construct_path(parents, location):
-    path = []
-    while parents[location] != None:
-        path.append(location)
-        location = parents[location]
-    path.append(location)
-    return path
-
 def a_star(grid, penalty_grid, a, b):
     prioq = Q.PriorityQueue()
     admissable = calc_admissable(a, b)
     visited = set()
-    prioq.put((admissable, admissable, tuple(a)))
-    parents = {tuple(a) : None}
+    prioq.put((admissable, [a]))
 
     while (prioq.qsize() != 0):
-        current_score, current_admissable, current_location = prioq.get()
-        if calc_admissable(current_location, b) == 1:
-            return construct_path(parents, current_location)[::-1]
+        current = prioq.get()
+        current_path = current[1]
+        if calc_admissable(current_path[-1], b) == 1:
+            #print(current_path)
+            return current_path
 
-        possible = options(grid, penalty_grid, current_location)
-        for location, k in possible:
-            if (location not in visited):
-
-                visited.add(location)
-                parents[location] = current_location
-
-                admissable = calc_admissable(location, b)
-                #path = copy.copy(current_path)
-                #for j in range(0,k+1):
-                #    path.append(location)
-                score = admissable + current_score + k + 1 - current_admissable
-                prioq.put((score, admissable, location))
+        possible = options(grid, penalty_grid, current_path[-1])
+        for i, k in possible:
+            i = tuple(i)
+            if (i not in visited):
+                visited.add(i)
+                admissable = calc_admissable(i, b)
+                path = copy.copy(current_path)
+                for j in range(0,k+1):
+                    path.append(i)
+                prioq.put((admissable + len(path), path))
     #print("No solution", a, b)
     return []
 
@@ -295,4 +283,4 @@ main()
 
 
 
-#cProfile.run('main()')
+# cProfile.run('main()')
