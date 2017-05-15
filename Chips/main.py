@@ -9,24 +9,6 @@ import cProfile
 
 from variables import *
 
-'''
-First test version:
-x_max = 6
-y_max = 6
-z_max = 1
-'''
-'''
-#netlist 1-3
-x_max = 17
-y_max = 12
-z_max = 7
-'''
-'''
-x_max = 17
-y_max = 16
-z_max = 7
-'''
-
 def main():
     values = []
     heatvals = []
@@ -41,11 +23,6 @@ def main():
         grid = init[0]
         points = init[1]
         penalty_grid = a.initialise_penalty_grid(points, heat)
-        #printgrid(penalty_grid, 1)
-        #printgrid(grid, 0)
-        #printpath(grid, a.a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
-        #printgrid(grid, 0)
-        #rintgrid(grid, 1)
         with open(used_netlist) as netlist:
             counter = 0
             succes = 0

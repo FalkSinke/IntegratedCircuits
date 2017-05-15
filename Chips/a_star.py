@@ -1,5 +1,5 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 import plotting3d

@@ -1,5 +1,5 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 import random
@@ -18,42 +18,48 @@ def main():
     total_length = 0
     best_pathlist = []
     best_length = -1
+    counter = 0
+    with open(used_netlist) as netlist:
+        permutation = []
+        for line in netlist.read().split():
+            counter += 1
+            array = line.split(",")
+            permutation.append(array)
+        init = initialise()
+        grid = init[0]
+        points = init[1]
     for i in range(0,15):
-        with open(used_netlist) as netlist:
-            permutation = []
-            for line in netlist.read().split():
-                array = line.split(",")
-                permutation.append(array)
-            init = initialise()
-            grid = init[0]
-            points = init[1]
-            for heat in range(0, 21):
-                penalty_grid = a.initialise_penalty_grid(points, heat)
-                counter = 0
-                succes = 0
-                pathlist = []
-                total_length = 0
-                #random.shuffle(permutation)
-                for net in permutation:
-                    path = a.a.a_star(grid, penalty_grid, points[str(int(net[0]) + 1)], points[str(int(net[1]) + 1)])
-                    printpath(grid, path, '*')
-                    if len(path) > 0:
-                        pathlist.append(path)
-                        total_length += (len(path) - 1)
-                        succes = succes + 1
-                        #print(array[0], array[1])
-                    else:
-                        failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
-                        failed_pathlist.append(failed_path)
-                    counter = counter + 1
-                #printgrid(grid, 0)
-                #printgrid(grid, 1)
-                #printgrid(grid, 7)
-            #values.append(succes)
-            #heatvals.append(heat)
-            #highestpos.append(counter)
-                print(succes)
-                if succes > highestscore:
+        for heat in range(0, 10):
+            penalty_grid = a.initialise_penalty_grid(points, heat)
+            succes = 0
+            pathlist = []
+            total_length = 0
+            for net in permutation:
+                path = a.a_star(grid, penalty_grid, points[str(int(net[0]) + 1)], points[str(int(net[1]) + 1)])
+                printpath(grid, path, '*')
+                if len(path) > 0:
+                    pathlist.append(path)
+                    total_length += (len(path) - 1)
+                    succes = succes + 1
+                else:
+                    failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
+                    failed_pathlist.append(failed_path)
+        #values.append(succes)
+        #heatvals.append(heat)
+        #highestpos.append(counter)
+            if succes > highestscore:
+                best_pathlist = pathlist
+                print("Highest score so far =", highestscore)
+                print("Permutation:", i)
+                print("Heat:", heat)
+                print(succes, "/", counter)
+                best_length = total_length
+                highestscore = succes
+                print("total length =", total_length)
+                print('')
+            if succes == highestscore:
+                pathlist, total_length = optimize_astar(best_pathlist, grid, points)
+                if (total_length < best_length) or (best_length < 0):
                     best_pathlist = pathlist
                     print("Highest score so far =", highestscore)
                     print("Permutation:", i)
@@ -61,18 +67,8 @@ def main():
                     print(succes, "/", counter)
                     print('')
                     best_length = total_length
-                    highestscore = succes
                     print("total length =", total_length)
-                if succes == highestscore:
-                    if (total_length < best_length) or (best_length < 0):
-                        best_pathlist = pathlist
-                        print("Highest score so far =", highestscore)
-                        print("Permutation:", i)
-                        print("Heat:", heat)
-                        print(succes, "/", counter)
-                        print('')
-                        best_length = total_length
-                        print("total length =", total_length)
+        random.shuffle(permutation)
             #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
             #plt.setp(line1, color='#51CD83', ls='--')
             #plt.setp(line2, color='#FC0057', ls='-')
@@ -81,7 +77,6 @@ def main():
             #plt.show()
     print("HIGHSCORE =", highestscore)
     print(best_pathlist)
-    optimize_astar(best_pathlist, grid, points)
 
 def optimize_astar(pathlist, grid, points):
     number_of_paths = len(pathlist)
@@ -100,8 +95,9 @@ def optimize_astar(pathlist, grid, points):
             pathlist.append(current_path)
             total_length1 += len(current_path)
         number_of_paths -= 1
-    print("New total length =", total_length1)
-    print(pathlist)
+    return (pathlist, total_length1)
+    #print("New total length =", total_length1)
+    #print(pathlist)
 
 
 def initialise():
@@ -142,105 +138,6 @@ def remove_duplicates(path_duplicates):
         if i not in path_singles:
             path_singles.append(i)
     return path_singles
-
-'''
-def get_penalty_grid_point(grid, options):
-    penalised_options = []
-
-    for x, y, z in options:
-        counter = 1
-        penalty = 10
-        if x != x_max and grid[x + 1][y][z].isdigit():
-            counter += penalty
-        if x != 0 and grid[x - 1][y][z].isdigit():
-            counter += penalty
-        if y != y_max and grid[x][y + 1][z].isdigit():
-            counter += penalty
-        if y != 0 and grid[x][y - 1][z].isdigit():
-            counter += penalty
-        if z != z_max and grid[x][y][z + 1].isdigit():
-            counter += penalty
-        if z != 0 and grid[x][y][z - 1].isdigit():
-            counter += penalty
-
-        penalised_options.append([[x, y, z], counter])
-
-    return penalised_options
-'''
-
-'''
-penalty grid DOCUMENTEREN
-    - heat varieren
-    - penalty functie varieren (linear/kwadratisch etc)
-    - proberen met andere netlists/grids
-
-
-uberhaupt documenteren van Penalty
-
-resultaten tabel: alleen a*, met penalty (verschillende soorten), hillclimber?
-
-'''
-
-
-
-'''
-als je snelste route van a naar b wil vinden:
-    - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
-     stop al die paths in queue (met als sorteer variabele dx+dy+dz
-    vanaf daar + afgelegde afstand).
-    - pak eerste item uit queue en expand
-    - als next step = final, dan #WIN
-
-
-    python heeft prioqueue
-    q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
-
-'''
-'''
-def fix(grid, pathlist, failed_pathlist, penalty_grid):
-    print(len(pathlist))
-    intermediate_pathlist = []
-    number_failedpaths = len(failed_pathlist)
-    counter = 0
-    while (counter != number_failedpaths):
-        path = pathlist[counter]
-        intermediate_pathlist.append(path)
-        pathlist.pop(counter)
-        printpath(grid, path, '.')
-        failed_path = failed_pathlist[counter]
-        print(failed_path)
-        a = failed_path[0]
-        b = failed_path[1]
-        print(a, "||", b)
-        new_path = a.a.a_star(grid, penalty_grid, a, b)
-        if new_path != []:
-            counter += 1
-            old_path = a.a_star(grid, penalty_grid, path[0], path[-1])
-            if old_path != []:
-                print('winwin')
-                counter = number_failedpaths
-        else:
-            print('fail')
-            while intermediate_pathlist != []:
-                path1 = intermediate_pathlist[0]
-                old_path1 = a.a_star(grid, penalty_grid, path1[0], path1[-1])
-                if old_path1 != []:
-                    pathlist.append(old_path1)
-                    intermediate_pathlist.pop(0)
-                    print('successs')
-                else:
-                    continue
-    print(len(pathlist))
-'''
-'''
-Make fix function
-- pak item (path) uit pathlist, zet in intermediate list
-- leg een path uit failedpathslist
-- als succes leg andere
-
-misschien eerst korte of eerst lange
-
-'''
 
 main()
 

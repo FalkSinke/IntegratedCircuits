@@ -1,26 +1,10 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
-
-'''
-First test version:
-x_max = 6
-y_max = 6
-z_max = 1
-'''
-
-x_max = 17
-y_max = 12
-z_max = 7
-
-'''
-x_max = 17
-y_max = 16
-z_max = 7
-'''
+from variables import *
 
 def main():
     values = []
