@@ -1,11 +1,13 @@
 from __future__ import print_function
-import Queue as Q
+import queue as Q
 import copy
 import matplotlib.pyplot as plt
 import plotting3d
-
+import a_star as a
 from math import sqrt
 import cProfile
+
+from variables import *
 
 '''
 First test version:
@@ -19,11 +21,11 @@ x_max = 17
 y_max = 12
 z_max = 7
 '''
-
+'''
 x_max = 17
 y_max = 16
 z_max = 7
-
+'''
 
 def main():
     values = []
@@ -38,18 +40,18 @@ def main():
         init = initialise()
         grid = init[0]
         points = init[1]
-        penalty_grid = initialise_penalty_grid(points, heat)
+        penalty_grid = a.initialise_penalty_grid(points, heat)
         #printgrid(penalty_grid, 1)
         #printgrid(grid, 0)
-        #printpath(grid, a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
+        #printpath(grid, a.a_star(grid, penalty_grid,[1,1,0], [1,5,0]), '*')
         #printgrid(grid, 0)
         #rintgrid(grid, 1)
-        with open("netlist_6.txt") as netlist:
+        with open(used_netlist) as netlist:
             counter = 0
             succes = 0
             for line in netlist.read().split():
                 array = line.split(",")
-                path = a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
+                path = a.a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
                 printpath(grid, path, '*')
                 if len(path) > 0:
                     pathlist.append(path)
@@ -85,7 +87,7 @@ def initialise():
 
     dict = {}
 
-    with open("coordinates_netlist4.txt") as f:
+    with open(coordinates) as f:
         for line in f.read().split():
             array = line.split(",")
             name = array[0]
@@ -155,7 +157,7 @@ uberhaupt documenteren van Penalty
 resultaten tabel: alleen a*, met penalty (verschillende soorten), hillclimber?
 
 '''
-
+'''
 def initialise_penalty_grid(points_dict, heat):
     penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
 
@@ -194,7 +196,7 @@ def options(grid, penalty_grid, point):
 #Calculates total path length from A to B going by point n + 1
 def calc_admissable(a, b):
     return abs(a[0] - b[0]) + abs(a[1]-b[1]) + abs(a[2] - b[2])
-
+'''
 '''
 als je snelste route van a naar b wil vinden:
     - expand naar alle richtingen (bewaar punten in visited list), als niet in visited list,
@@ -208,7 +210,7 @@ als je snelste route van a naar b wil vinden:
     q.get() als q leeg, gaat oneindig lang wachten, dus check eerst of leeg
 
 '''
-
+'''
 def construct_path(parents, location):
     path = []
     while parents[location] != None:
@@ -244,7 +246,7 @@ def a_star(grid, penalty_grid, a, b):
                 prioq.put((score, admissable, location))
     #print("No solution", a, b)
     return []
-
+'''
 '''
 def fix(grid, pathlist, failed_pathlist, penalty_grid):
     print(len(pathlist))

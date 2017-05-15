@@ -1,3 +1,13 @@
+from __future__ import print_function
+import queue as Q
+import copy
+import matplotlib.pyplot as plt
+import plotting3d
+import a_star as a
+from math import sqrt
+import cProfile
+
+from variables import *
 
 def initialise_penalty_grid(points_dict, heat):
     penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]

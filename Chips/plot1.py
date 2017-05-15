@@ -41,7 +41,7 @@ def penalty_x(penalty_grid, X, Y):
     return penalty_grid[X][Y][0]
 
 def main():
-    heat = 1
+    heat = 8
     init = initialise()
     grid = init[0]
     points = init[1]
