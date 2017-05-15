@@ -17,7 +17,7 @@ def main():
     penalty_grid = []
     failed_pathlist = []
     total_length = 0
-    for heat in range(25,36):
+    for heat in range(0,15):
         total_length = 0
         init = initialise()
         grid = init[0]
@@ -29,7 +29,7 @@ def main():
             for line in netlist.read().split():
                 array = line.split(",")
                 path = a.a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
-                printpath(grid, path, '*')
+                a.printpath(grid, path, '*')
                 if len(path) > 0:
                     pathlist.append(path)
                     total_length += (len(path) - 1)
@@ -40,9 +40,9 @@ def main():
                     failed_pathlist.append(failed_path)
                 counter = counter + 1
                 #print(str(int(array[0]) + 1), str(int(array[1]) + 1))
-                #printgrid(grid, 0)
-                #printgrid(grid, 1)
-            #printgrid(grid, 7)
+                #a.printgrid(grid, 0)
+                #a.printgrid(grid, 1)
+            #a.printgrid(grid, 7)
         values.append(succes)
         heatvals.append(heat)
         highestpos.append(counter)
@@ -74,21 +74,6 @@ def initialise():
             grid[x][y][0] = name
             dict[name] = [x, y, 0]
     return (grid, dict)
-
-def printpath(grid, path, icon):
-    for x,y,z in path[1:]:
-        grid[x][y][z] = icon
-
-def printgrid(grid, z):
-    print("layer: ", z)
-    for j in range (len(grid)):
-        for i in range (len(grid[0])):
-            if len(str(grid[j][i][z])) == 2:
-                print(grid[j][i][z], end=' ')
-            else:
-                print(grid[j][i][z], end='  ')
-        print('')
-    print('')
 
 def remove_duplicates(path_duplicates):
     path_singles = []
@@ -234,7 +219,7 @@ def fix(grid, pathlist, failed_pathlist, penalty_grid):
         path = pathlist[counter]
         intermediate_pathlist.append(path)
         pathlist.pop(counter)
-        printpath(grid, path, '.')
+        a.printpath(grid, path, '.')
         failed_path = failed_pathlist[counter]
         print(failed_path)
         a = failed_path[0]

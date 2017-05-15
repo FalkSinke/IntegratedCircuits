@@ -1,5 +1,5 @@
 from __future__ import print_function
-import Queue as Q
+import queue as Q
 import copy
 import matplotlib.pyplot as plt
 import random
@@ -28,15 +28,15 @@ def main():
         init = initialise()
         grid = init[0]
         points = init[1]
-    for i in range(0,15):
-        for heat in range(0, 10):
+    for i in range(0,2):
+        for heat in range(0, 15):
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
             pathlist = []
             total_length = 0
             for net in permutation:
                 path = a.a_star(grid, penalty_grid, points[str(int(net[0]) + 1)], points[str(int(net[1]) + 1)])
-                printpath(grid, path, '*')
+                a.printpath(grid, path, '*')
                 if len(path) > 0:
                     pathlist.append(path)
                     total_length += (len(path) - 1)
@@ -84,7 +84,7 @@ def optimize_astar(pathlist, grid, points):
     total_length1 = 0
     while number_of_paths != 0:
         current_path = pathlist.pop(0)
-        printpath(grid, current_path, '.')
+        a.printpath(grid, current_path, '.')
         adjusted_path = a.a_star(grid, penaltygrid_zero, current_path[0], current_path[-1])
         #adjusted_path = remove_duplicates(adjusted_path)
         length_adjusted_path = len(adjusted_path)
@@ -116,21 +116,6 @@ def initialise():
             grid[x][y][0] = name
             dict[name] = [x, y, 0]
     return (grid, dict)
-
-def printpath(grid, path, icon):
-    for x,y,z in path[1:]:
-        grid[x][y][z] = icon
-
-def printgrid(grid, z):
-    print("layer: ", z)
-    for j in range (len(grid)):
-        for i in range (len(grid[0])):
-            if len(str(grid[j][i][z])) == 2:
-                print(grid[j][i][z], end=' ')
-            else:
-                print(grid[j][i][z], end='  ')
-        print('')
-    print('')
 
 def remove_duplicates(path_duplicates):
     path_singles = []
