@@ -53,7 +53,7 @@ def main():
             init = initialise()
             grid = init[0]
             points = init[1]
-            for i in range(1, 2):
+            for i in range(0, 10):
                 penalty_grid = initialise_penalty_grid(points, heat)
                 counter = 0
                 succes = 0
