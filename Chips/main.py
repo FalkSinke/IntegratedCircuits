@@ -13,43 +13,42 @@ def main():
     values = []
     heatvals = []
     highestpos = []
-    pathlist = []
-    penalty_grid = []
     failed_pathlist = []
-    total_length = 0
-    for heat in range(0,15):
+    counter = 0
+    with open(used_netlist) as netlist:
+        permutation = []
+        for line in netlist.read().split():
+            counter += 1
+            array = line.split(",")
+            array[0] = str(int(array[0]) + 1)
+            array[1] = str(int(array[1]) + 1)
+            permutation.append(array)
+    for heat in range(0,1):
+        pathlist = []
+        succes = 0
         total_length = 0
-        init = initialise()
-        grid = init[0]
-        points = init[1]
+        grid, points = a.initialise()
         penalty_grid = a.initialise_penalty_grid(points, heat)
-        with open(used_netlist) as netlist:
-            counter = 0
-            succes = 0
-            for line in netlist.read().split():
-                array = line.split(",")
-                path = a.a_star(grid, penalty_grid, points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)])
+        a.printgrid(grid,0)
+        for net in permutation:
+            path = a.a_star(grid, penalty_grid, points[net[0]], points[net[1]])
+            if len(path) > 0:
                 a.printpath(grid, path, '*')
-                if len(path) > 0:
-                    pathlist.append(path)
-                    total_length += (len(path) - 1)
-                    succes = succes + 1
-                    #print(array[0], array[1])
-                else:
-                    failed_path = [points[str(int(array[0]) + 1)], points[str(int(array[1]) + 1)]]
-                    failed_pathlist.append(failed_path)
-                counter = counter + 1
-                #print(str(int(array[0]) + 1), str(int(array[1]) + 1))
-                #a.printgrid(grid, 0)
-                #a.printgrid(grid, 1)
-            #a.printgrid(grid, 7)
-        values.append(succes)
-        heatvals.append(heat)
-        highestpos.append(counter)
+                pathlist.append(path)
+                succes += 1
+                total_length += (len(path) - 1)
+                print(net[0], net[1])
+                print(path)
+                a.printgrid(grid,0)
+                a.printgrid(grid,1)
+
+        #values.append(succes)
+        #heatvals.append(heat)
+        #highestpos.append(counter)
         print("Heat:", heat)
         print(succes,  "/", counter)
-        print('')
         print("total length =", total_length)
+        print('')
     #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
     #plt.setp(line1, color='#51CD83', ls='--')
     #plt.setp(line2, color='#FC0057', ls='-')
@@ -57,30 +56,6 @@ def main():
     #plt.xlabel('heatvalue')
     #plt.show()
     #plotting3d.plotting_3d(pathlist)
-
-def initialise():
-    # Width, length, height
-    grid = [[["." for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
-
-    dict = {}
-
-    with open(coordinates) as f:
-        for line in f.read().split():
-            array = line.split(",")
-            name = array[0]
-            x = int(array[1])
-            y = int(array[2])
-            # print(x, y)
-            grid[x][y][0] = name
-            dict[name] = [x, y, 0]
-    return (grid, dict)
-
-def remove_duplicates(path_duplicates):
-    path_singles = []
-    for i in path_duplicates:
-        if i not in path_singles:
-            path_singles.append(i)
-    return path_singles
 
 '''
 def get_penalty_grid_point(grid, options):

@@ -5,15 +5,21 @@ y_max = 6
 z_max = 1
 '''
 
-used_netlist = 'netlist_1.txt'
+used_netlist = 'netlist_6.txt'
 
 if ('1' in used_netlist) or ('2' in used_netlist) or ('3' in used_netlist):
+    print('netlist1-3')
     coordinates = 'coordinates_netlist1.txt'
     x_max = 17
     y_max = 12
     z_max = 7
+elif ('test' in used_netlist):
+    coordinates = 'coordinates_test.txt'
+    x_max = 6
+    y_max = 6
+    z_max = 1
 else:
-    coordinate = 'coordinates_netlist4.txt'
+    coordinates = 'coordinates_netlist4.txt'
     x_max = 17
     y_max = 16
     z_max = 7

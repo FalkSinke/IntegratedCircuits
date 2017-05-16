@@ -9,13 +9,25 @@ import cProfile
 
 from variables import *
 
+def initialise():
+    # Width, length, height
+    grid = [[["." for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
+    diction = {}
+    with open(coordinates) as f:
+        for line in f.read().split():
+            name, x, y = line.split(",")
+            x, y = int(x), int(y)
+            grid[x][y][0] = name
+            diction[name] = (x, y, 0)
+    return (grid, diction)
+
 def initialise_penalty_grid(points_dict, heat):
     penalty_grid = [[[0 for i in range(z_max+1)] for j in range(y_max+1)] for k in range(x_max+1)]
     for x in range(len(penalty_grid)):
         for y in range(len(penalty_grid[x])):
             for z in range(len(penalty_grid[x][y])):
                 for gate in points_dict:
-                    distance = calc_admissable([x,y,z], points_dict[gate])
+                    distance = calc_admissable((x,y,z), points_dict[gate])
                     penalty = heat - (distance*2);
                     if penalty < 0:
                         penalty = 0
@@ -68,17 +80,19 @@ def construct_path(parents, location):
     return path
 
 def a_star(grid, penalty_grid, a, b):
+    a = tuple(a)
+    b = tuple(b)
     prioq = Q.PriorityQueue()
     admissable = calc_admissable(a, b)
     visited = set()
-    prioq.put((admissable, admissable, tuple(a)))
-    parents = {tuple(a) : None}
+    prioq.put((admissable, admissable, a))
+    parents = {a : None}
 
     while (prioq.qsize() != 0):
         current_score, current_admissable, current_location = prioq.get()
         if calc_admissable(current_location, b) == 1:
-            parents[tuple(b)] = current_location
-            return construct_path(parents, tuple(b))
+            parents[b] = current_location
+            return construct_path(parents, b)
 
         possible = options(grid, penalty_grid, current_location)
         for location, k in possible:
