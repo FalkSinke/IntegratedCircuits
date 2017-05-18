@@ -29,8 +29,8 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(array)
-    for i in range(0,40):
-        for heat in range(10, 30):
+    for i in range(0,20):
+        for heat in range(0, 40):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -53,7 +53,7 @@ def main():
             if succes > highestscore:
                 best_pathlist, best_length = optimize_astar(pathlist, grid, points)
                 highestscore = succes
-                best_permutation = permutation
+                best_permutation = copy.copy(permutation)
                 best_heat = heat
                 print("Highest score so far =", highestscore)
                 print("Permutation:", i)
@@ -61,13 +61,14 @@ def main():
                 print(succes, "/", counter)
                 print("total length =", total_length)
                 print("optimalized =", best_length)
+                print(best_permutation)
                 print('')
             elif succes == highestscore:
                 pathlist, optim_length = optimize_astar(pathlist, grid, points)
                 if (optim_length < best_length) or (best_length == 0):
                     best_pathlist = pathlist
                     best_length = optim_length
-                    best_permutation = permutation
+                    best_permutation = copy.copy(permutation)
                     best_heat = heat
                     print("Found shorter path")
                     print("Highest score so far =", highestscore)
@@ -76,7 +77,9 @@ def main():
                     print(succes, "/", counter)
                     print("total length =", total_length)
                     print("optimalized =", optim_length)
+                    print(best_permutation)
                     print('')
+
             else:
                 print(i, heat)
         random.shuffle(permutation)
