@@ -30,7 +30,7 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
-    for i in range(0,501):
+    for i in range(0,41):
         for heat in range(0,31):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
@@ -86,16 +86,16 @@ def main():
             results.append((heat, succes,total_length))
         random.shuffle(permutation)
 
-    file = open("results.txt", "w")
-    file.write("heat, value, length\n")
-    for heatval, resval, length in results:
-        file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
+    with open("results.txt", "w") as file:
+        file.write("heat, value, length\n")
+        for heatval, resval, length in results:
+            file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
 
-    file.write("\nFINAL RESULT:" + str(highestscore) + "\n")
-    file.write("heat: " + str(best_heat) + "\n")
-    file.write("length: " + str(best_length) + "\n")
-    file.write(str(best_permutation) + "\n")
-    file.close()
+        file.write("\nFINAL RESULT:" + str(highestscore) + "\n")
+        file.write("heat: " + str(best_heat) + "\n")
+        file.write("length: " + str(best_length) + "\n")
+        file.write(str(best_permutation) + "\n")
+        file.close()
 
     #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
     #plt.setp(line1, color='#51CD83', ls='--')
