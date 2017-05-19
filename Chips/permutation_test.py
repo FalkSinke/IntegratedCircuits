@@ -18,6 +18,7 @@ def main():
     total_length = 0
     best_pathlist = []
     best_permutation = []
+    results = []
     best_length = 0
     counter = 0
     best_heat = 0
@@ -29,8 +30,8 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
-    for i in range(0,20):
-        for heat in range(0, 31):
+    for i in range(0,501):
+        for heat in range(0,31):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -82,7 +83,20 @@ def main():
 
             else:
                 print(i, heat)
+            results.append((heat, succes,total_length))
         random.shuffle(permutation)
+
+    file = open("results.txt", "w")
+    file.write("heat, value, length\n")
+    for heatval, resval, length in results:
+        file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
+
+    file.write("\nFINAL RESULT:" + str(highestscore) + "\n")
+    file.write("heat: " + str(best_heat) + "\n")
+    file.write("length: " + str(best_length) + "\n")
+    file.write(str(best_permutation) + "\n")
+    file.close()
+
     #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
     #plt.setp(line1, color='#51CD83', ls='--')
     #plt.setp(line2, color='#FC0057', ls='-')
@@ -105,26 +119,7 @@ def optimize_astar(pathlist, grid, points):
         new_pathlist.append(new_path)
         a.printpath(grid, path, '*')
     return (new_pathlist, length)
-'''
-number_of_paths = len(pathlist)
-penaltygrid_zero = a.initialise_penalty_grid(points, 0)
-total_length1 = 0
-while number_of_paths != 0:
-    current_path = pathlist.pop(0)
-    a.printpath(grid, current_path, '.')
-    adjusted_path = a.a_star(grid, penaltygrid_zero, current_path[0], current_path[-1])
-    length_adjusted_path = (len(adjusted_path) - 1)
-    if length_adjusted_path < (len(current_path) - 1):
-        pathlist.append(adjusted_path)
-        total_length1 += length_adjusted_path
-    else:
-        pathlist.append(current_path)
-        total_length1 += len(current_path)
-    number_of_paths -= 1
-return (pathlist, total_length1)
-#print("New total length =", total_length1)
-#print(pathlist)
-'''
+
 
 main()
 
