@@ -23,13 +23,13 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(array)
-    for heat in range(0,1):
+    for heat in range(0,50):
         pathlist = []
         succes = 0
         total_length = 0
         grid, points = a.initialise()
         penalty_grid = a.initialise_penalty_grid(points, heat)
-        a.printgrid(grid,0)
+        #a.printgrid(grid,0)
         for net in permutation:
             path = a.a_star(grid, penalty_grid, points[net[0]], points[net[1]])
             if len(path) > 0:
@@ -37,24 +37,24 @@ def main():
                 pathlist.append(path)
                 succes += 1
                 total_length += (len(path) - 1)
-                print(net[0], net[1])
-                print(path)
-                a.printgrid(grid,0)
-                a.printgrid(grid,1)
+                #print(net[0], net[1])
+                #print(path)
+                #a.printgrid(grid,0)
+                #a.printgrid(grid,1)
 
-        #values.append(succes)
-        #heatvals.append(heat)
-        #highestpos.append(counter)
+        values.append(succes)
+        heatvals.append(heat)
+        highestpos.append(counter)
         print("Heat:", heat)
         print(succes,  "/", counter)
         print("total length =", total_length)
         print('')
-    #line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
-    #plt.setp(line1, color='#51CD83', ls='--')
-    #plt.setp(line2, color='#FC0057', ls='-')
-    #plt.ylabel('wires')
-    #plt.xlabel('heatvalue')
-    #plt.show()
+    line1, line2 = plt.plot(heatvals, values, heatvals, highestpos)
+    plt.setp(line1, color='#51CD83', ls='--')
+    plt.setp(line2, color='#FC0057', ls='-')
+    plt.ylabel('wires')
+    plt.xlabel('heatvalue')
+    plt.show()
     #plotting3d.plotting_3d(pathlist)
 
 '''
