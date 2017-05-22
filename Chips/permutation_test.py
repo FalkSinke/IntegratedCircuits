@@ -30,13 +30,8 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
-<<<<<<< HEAD
     for i in range(0,100):
         for heat in range(5,30):
-=======
-    for i in range(0,41):
-        for heat in range(0,31):
->>>>>>> 2cb60be7b908363e8017f8ecf20a72ed43c83139
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
