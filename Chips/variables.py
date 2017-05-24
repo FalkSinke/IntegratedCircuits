@@ -5,7 +5,7 @@ y_max = 6
 z_max = 1
 '''
 
-used_netlist = 'netlist_6_newbest.txt'
+used_netlist = 'netlist_6.txt'
 
 if ('1' in used_netlist) or ('2' in used_netlist) or ('3' in used_netlist):
     print('netlist1-3')

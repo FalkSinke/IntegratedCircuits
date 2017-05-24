@@ -1,5 +1,5 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 import random
@@ -29,12 +29,12 @@ def main():
             counter += 1
             array = line.split(",")
             # COMMENT THESE 2 ROWS AWAY WHEN USING OWN LIST
-            #array[0] = str(int(array[0]) + 1)
-            #array[1] = str(int(array[1]) + 1)
+            array[0] = str(int(array[0]) + 1)
+            array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
 
     for i in range(0,1):
-        for heat in range(0,50):
+        for heat in range(0,1):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
