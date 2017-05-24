@@ -12,10 +12,12 @@ def main():
             values = line.split()
             #print(values)
             data[int(values[0])].append(int(values[2]) / int(values[1]))
+            #data[int(values[0])].append(int(values[1]))
             #heat.append(int(values[0]))
             #succes.append(int(values[1]))
             #length.append(int(values[2]))
 
     plt.boxplot(data)
+    #plt.axis([0, 31, 0, 70])
     plt.show()
 main()

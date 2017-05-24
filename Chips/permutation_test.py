@@ -30,7 +30,7 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
-    for i in range(0,41):
+    for i in range(0,101):
         for heat in range(0,31):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
