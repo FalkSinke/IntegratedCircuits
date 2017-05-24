@@ -28,12 +28,13 @@ def main():
         for line in netlist.read().split():
             counter += 1
             array = line.split(",")
-            array[0] = str(int(array[0]) + 1)
-            array[1] = str(int(array[1]) + 1)
+            # COMMENT THESE 2 ROWS AWAY WHEN USING OWN LIST
+            #array[0] = str(int(array[0]) + 1)
+            #array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
 
-    for i in range(0,100):
-        for heat in range(5,30):
+    for i in range(0,1):
+        for heat in range(0,30):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
