@@ -29,8 +29,8 @@ def main():
             counter += 1
             array = line.split(",")
             # COMMENT THESE 2 ROWS AWAY WHEN USING OWN LIST
-            array[0] = str(int(array[0]) + 1)
-            array[1] = str(int(array[1]) + 1)
+            #array[0] = str(int(array[0]) + 1)
+            #array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
 
     for i in range(0,1):
