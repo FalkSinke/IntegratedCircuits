@@ -29,12 +29,12 @@ def main():
             counter += 1
             array = line.split(",")
             # COMMENT THESE 2 ROWS AWAY WHEN USING OWN LIST
-            #array[0] = str(int(array[0]) + 1)
-            #array[1] = str(int(array[1]) + 1)
+            array[0] = str(int(array[0]) + 1)
+            array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
 
     for i in range(0,1):
-        for heat in range(0,30):
+        for heat in range(0,50):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -44,6 +44,7 @@ def main():
             for net in permutation:
                 path = a.a_star(grid, penalty_grid, points[net[0]], points[net[1]])
                 if len(path) > 0:
+                    #a.printgrid(grid, 0)
                     a.printpath(grid, path, '*')
                     pathlist.append(path)
                     total_length += (len(path) - 1)
@@ -54,6 +55,7 @@ def main():
             #values.append(succes)
             #heatvals.append(heat)
             #highestpos.append(counter)
+            #plotting.plotting_3d(pathlist)
             if succes > highestscore:
                 best_pathlist, best_length = optimize_astar(pathlist, grid, points)
                 highestscore = succes
@@ -109,6 +111,7 @@ def main():
     print(best_permutation)
     print("Best heat:", best_heat)
     print("Best length:", best_length)
+    print(best_pathlist)
     plotting.plotting_3d(best_pathlist)
 
 def optimize_astar(pathlist, grid, points):
@@ -120,7 +123,7 @@ def optimize_astar(pathlist, grid, points):
         new_path = a.a_star(grid, penaltygrid_zero, path[0], path[-1])
         length += (len(new_path) - 1)
         new_pathlist.append(new_path)
-        a.printpath(grid, path, '*')
+        a.printpath(grid, new_path, '*')
     return (new_pathlist, length)
 
 
