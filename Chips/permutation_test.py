@@ -29,12 +29,12 @@ def main():
             counter += 1
             array = line.split(",")
             # COMMENT THESE 2 ROWS AWAY WHEN USING OWN LIST
-            #array[0] = str(int(array[0]) + 1)
-            #array[1] = str(int(array[1]) + 1)
+            array[0] = str(int(array[0]) + 1)
+            array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
 
-    for i in range(0,1):
-        for heat in range(0,50):
+    for i in range(0,201):
+        for heat in range(7,31):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -118,13 +118,18 @@ def optimize_astar(pathlist, grid, points):
     penaltygrid_zero = a.initialise_penalty_grid(points, 0)
     new_pathlist = []
     length = 0
-    for path in pathlist:
-        a.printpath(grid, path, '.')
-        new_path = a.a_star(grid, penaltygrid_zero, path[0], path[-1])
-        length += (len(new_path) - 1)
-        new_pathlist.append(new_path)
-        a.printpath(grid, new_path, '*')
+    new_length = 0
+    while length == 0 or new_length < length:
+        length = new_length
+        for path in pathlist:
+            a.printpath(grid, path, '.')
+            new_path = a.a_star(grid, penaltygrid_zero, path[0], path[-1])
+            new_length += (len(new_path) - 1)
+            new_pathlist.append(new_path)
+            a.printpath(grid, new_path, '*')
     return (new_pathlist, length)
+
+
 
 
 main()
