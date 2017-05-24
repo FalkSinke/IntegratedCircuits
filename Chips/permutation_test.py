@@ -1,5 +1,5 @@
 from __future__ import print_function
-import queue as Q
+import Queue as Q
 import copy
 import matplotlib.pyplot as plt
 import random
@@ -30,8 +30,13 @@ def main():
             array[0] = str(int(array[0]) + 1)
             array[1] = str(int(array[1]) + 1)
             permutation.append(tuple(array))
+<<<<<<< HEAD
     for i in range(0,101):
         for heat in range(0,31):
+=======
+    for i in range(0,100):
+        for heat in range(5,30):
+>>>>>>> 788d50e72001626c012e11c257c7a7d900bb3dff
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -77,7 +82,7 @@ def main():
                     print("Heat:", heat)
                     print(succes, "/", counter)
                     print("total length =", total_length)
-                    print("optimalized =", optim_length)
+                    print("optimized =", optim_length)
                     print(best_permutation)
                     print('')
 
@@ -85,11 +90,24 @@ def main():
                 print(i, heat)
             results.append((heat, succes,total_length))
         random.shuffle(permutation)
+<<<<<<< HEAD
+    optimized_pathlist, optimized_length = optimize_astar(pathlist, grid, points)
+    while optimized_length < best_length:
+        print("New best length =", best_length)
+        best_length = optimized_length
+        pathlist = optimized_pathlist
+        optimized_pathlist, optimized_length = optimize_astar(pathlist, grid, points)
+    file = open("results.txt", "w")
+    file.write("heat, value, length\n")
+    for heatval, resval, length in results:
+        file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
+=======
 
     with open("results.txt", "w") as file:
         file.write("heat, value, length\n")
         for heatval, resval, length in results:
             file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
+>>>>>>> 2cb60be7b908363e8017f8ecf20a72ed43c83139
 
         file.write("\nFINAL RESULT:" + str(highestscore) + "\n")
         file.write("heat: " + str(best_heat) + "\n")
