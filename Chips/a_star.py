@@ -35,8 +35,9 @@ def initialise_penalty_grid(points_dict, heat):
     return penalty_grid
 
 def printpath(grid, path, icon):
-    for x,y,z in path[1:-1]:
-        grid[x][y][z] = icon
+    if len(path) > 2:
+        for x,y,z in path[1:-1]:
+            grid[x][y][z] = icon
 
 def printgrid(grid, z):
     print("layer: ", z)
@@ -79,7 +80,7 @@ def construct_path(parents, location):
     path.append(location)
     return path
 
-def a_star(grid, penalty_grid, a, b):
+def a_star2(grid, penalty_grid, a, b):
     a = tuple(a)
     b = tuple(b)
     prioq = Q.PriorityQueue()
@@ -99,8 +100,35 @@ def a_star(grid, penalty_grid, a, b):
             if (location not in visited):
                 visited.add(location)
                 parents[location] = current_location
-
                 admissable = calc_admissable(location, b)
                 score = admissable + current_score + k + 1 - current_admissable
                 prioq.put((score, admissable, location))
+    return []
+
+def a_star(grid, penalty_grid, a, b):
+    a = tuple(a)
+    b = tuple(b)
+    prioq = Q.PriorityQueue()
+    admissable = calc_admissable(a, b)
+    visited = set()
+    prioq.put((admissable, admissable, a, a))
+    parents = {a : None}
+    while (prioq.qsize() != 0):
+        current_score, current_admissable, current_location, last_location = prioq.get()
+        if current_location not in visited:
+            if current_location is not a:
+                visited.add(current_location)
+                parents[current_location] = last_location
+            if calc_admissable(current_location, b) == 1:
+                parents[b] = current_location
+                return construct_path(parents, b)[::-1]
+
+            possible = options(grid, penalty_grid, current_location)
+            for location, k in possible:
+                #if (location not in visited):
+                admissable = calc_admissable(location, b)
+                score = admissable + current_score + k + 1 - current_admissable
+                #print(location, " ", admissable," ", score, " ", k, " ", b)
+                #print(calc_admissable(location, b))
+                prioq.put((score, admissable, location, current_location))
     return []
