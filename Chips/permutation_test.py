@@ -35,7 +35,7 @@ def main():
 
 
     for i in range(0,1):
-        for heat in range(0,10):
+        for heat in range(23,24):
             grid, points = a.initialise()
             penalty_grid = a.initialise_penalty_grid(points, heat)
             succes = 0
@@ -88,7 +88,7 @@ def main():
                     print('')
             else:
                 print(i, heat)
-            results.append((heat, succes,total_length))
+            results.append((heat, succes, total_length))
         random.shuffle(permutation)
 
     with open("results.txt", "w") as file:
