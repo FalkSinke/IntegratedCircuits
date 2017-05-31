@@ -1,11 +1,11 @@
 # Make both same if you only want to run one single heat value
 # final heatvalue is inclusive
-start_heatvalue = 22
-final_heatvalue = 22
+start_heatvalue = 0
+final_heatvalue = 30
 
 # Amount of iterations to be performed, a value of 1 will run the original
 # .txt permutation order.
-amount_of_iterations = 1
+amount_of_iterations = 5
 
 # Set to True if normal netlist is used (netlist_1.txt, netlist_2.txt etc.)
 # Original files started with gate 0, while the coordinates started at 1,
