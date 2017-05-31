@@ -72,19 +72,22 @@ def main():
                     print("optimized =", optim_length)
                     print(best_permutation)
                     print('')
+                else:
+                    print("Succesfully laid down ", highestscore, "paths")
+                    print("Total pathlength was longer than best pathlength")
             else:
                 print(i, heat)
             results.append((heat, succes, total_length))
         random.shuffle(permutation)
 
     # Creates the results in a final file results.txt
-    with open("results.txt", "w") as file:
-        file.write("heat, value, length\n")
+    with open(results_file, "w") as file:
+        file.write("heat, value, non-optimised length\n")
         for heatval, resval, length in results:
             file.write(str(heatval) + " " + str(resval) + " " +  str(length) +"\n")
         file.write("\nFINAL RESULT:" + str(highestscore) + "\n")
         file.write("heat: " + str(best_heat) + "\n")
-        file.write("length: " + str(best_length) + "\n")
+        file.write("optimised length: " + str(best_length) + "\n")
         file.write(str(best_permutation) + "\n")
         file.close()
 

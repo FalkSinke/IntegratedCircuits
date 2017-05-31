@@ -1,7 +1,7 @@
 #Make both same if you only want to run one single heat value
 # final heatvalue is inclusive
-start_heatvalue = 22
-final_heatvalue = 22
+start_heatvalue = 0
+final_heatvalue = 10
 
 # Amount of iterations to be performed, a value of 1 will run the original
 # .txt permutation order.
@@ -26,6 +26,8 @@ plotheight = 7
 # Enable plotting of the heatmap at the end REQUIRES plot.ly
 plot_heatmap = False
 
+# Determine in which file you want to save the results
+results_file = "results/FILENAME.txt"
 
 # Leave as it is, describes which coordinate grid should be used
 if ('1' in used_netlist) or ('2' in used_netlist) or ('3' in used_netlist):
