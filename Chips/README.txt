@@ -4,14 +4,15 @@ Falk Sinke
 Lucas Fijen
 
 It has been written for the subject Heuristieken at the UvA.
-This code is an atempt to resolve the constraint optimalisation problem
+This code is an attempt to resolve the constraint optimisation problem
 found in chips production.
 
 main.py should be ran to run the code. Variables can be changed in
 variables.py in order to enable certain functions.
 
 The code can be run with python2, python3 and pypy, as long as you change
-the setting in variables.py
+the setting in variables.py. For the fastest results, use pypy, however with
+pypy plotting can't be enabled.
 
 To create a visualisation of the heatmap, plot.ly is required.
 Also matplotlib is required for the normal plots
@@ -30,5 +31,5 @@ running Ubuntu 16.04LTS with a 2,4 GHz intel i7 and 8GB DDR3 RAM.
 Using pypy the code should run in about 0.5-1 second per heat, depending on
 the netlist used.
 
-Please read the details in variables.py for more explaination of the
+Please read the details in variables.py for more explanation of the
 optional functions
