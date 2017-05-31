@@ -1,7 +1,6 @@
 from __future__ import print_function
 import copy
 from math import sqrt
-import cProfile
 from variables import *
 
 if python2 is True:
