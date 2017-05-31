@@ -1,20 +1,22 @@
 #Make both same if you only want to run one single heat value
-start_heatvalue = 0
-final_heatvalue = 0
+# final heatvalue is inclusive
+start_heatvalue = 22
+final_heatvalue = 22
 
-# Amount of iterations to be performed, value 1 will run the original txt
-# order only
+# Amount of iterations to be performed, a value of 1 will run the original
+# .txt permutation order.
 amount_of_iterations = 1
 
-# Set on True if normal netlist is used (netlist_1.txt etc)
-# Output file converted to a netlist file usually have +1 to gates,
-# so set this one to False if using a own created netlist.
+# Set to True if normal netlist is used (netlist_1.txt, netlist_2.txt etc.)
+# Original files started with gate 0, while the coordinates started at 1,
+# so set this one to False if using an own created netlist.
 original_netlist = True
 
 # Name of netlist used
 used_netlist = 'netlists/netlist_1.txt'
 
 # Enable when running in python2 (or pypy when going for performance)
+# Dissable when running python3
 python2 = False
 
 # Set True if you want perform 3d plotting at the end of the coordinates

@@ -3,7 +3,6 @@ import copy
 import random
 from variables import *
 import functions as a
-import cProfile
 
 def main():
     penalty_grid = []
@@ -38,6 +37,8 @@ def main():
                 path = a.a_star(grid, penalty_grid, points[net[0]], points[net[1]])
                 if len(path) > 0:
                     #a.printgrid(grid, 0)
+                    # for a better view on what is printed,
+                    # enable this, own written visualisation
                     a.printpath(grid, path, '*')
                     pathlist.append(path)
                     total_length += (len(path) - 1)
@@ -101,4 +102,3 @@ def main():
 
 
 main()
-#cProfile.run('main()')
