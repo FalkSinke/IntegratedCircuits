@@ -95,7 +95,6 @@ def main():
     print(best_permutation)
     print("Best heat:", best_heat)
     print("Best length:", best_length)
-
     if set_plotting is True:
         import plotting_paths as plotting
         plotting.plotting_3d(best_pathlist, points)
