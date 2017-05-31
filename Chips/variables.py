@@ -1,4 +1,4 @@
-#Make both same if you only want to run one single heat value
+# Make both same if you only want to run one single heat value
 # final heatvalue is inclusive
 start_heatvalue = 5
 final_heatvalue = 5
