@@ -1,13 +1,13 @@
 from __future__ import print_function
-import queue as Q
 import copy
-import matplotlib.pyplot as plt
-import plotting3d
-import a_star as a
 from math import sqrt
 import cProfile
-
 from variables import *
+
+if python2 is True:
+    import Queue as Q
+else:
+    import queue as Q
 
 def initialise():
     # Width, length, height
@@ -79,35 +79,6 @@ def construct_path(parents, location):
         location = parents[location]
     path.append(location)
     return path
-'''
-old a star algorithm, puts items from options to visited,
-should do this only when it pops the item from queue, now it can't assure
-it finds the shortest path
-def a_star2(grid, penalty_grid, a, b):
-    a = tuple(a)
-    b = tuple(b)
-    prioq = Q.PriorityQueue()
-    admissable = calc_admissable(a, b)
-    visited = set()
-    prioq.put((admissable, admissable, a))
-    parents = {a : None}
-
-    while (prioq.qsize() != 0):
-        current_score, current_admissable, current_location = prioq.get()
-        if calc_admissable(current_location, b) == 1:
-            parents[b] = current_location
-            return construct_path(parents, b)
-
-        possible = options(grid, penalty_grid, current_location)
-        for location, k in possible:
-            if (location not in visited):
-                visited.add(location)
-                parents[location] = current_location
-                admissable = calc_admissable(location, b)
-                score = admissable + current_score + k + 1 - current_admissable
-                prioq.put((score, admissable, location))
-    return []
-'''
 
 def a_star(grid, penalty_grid, a, b):
     a = tuple(a)
@@ -134,3 +105,22 @@ def a_star(grid, penalty_grid, a, b):
                 score = admissable + current_score + k + 1 - current_admissable
                 prioq.put((score, admissable, location, current_location))
     return []
+
+def optimize_astar(pathlist, grid, points):
+    penaltygrid_zero = initialise_penalty_grid(points, 0)
+    old_pathlist = pathlist
+    length = 0
+    new_length = 0
+    changed = True
+    while length == 0 or new_length < length:
+        new_pathlist = []
+        length = new_length
+        new_length = 0
+        for path in old_pathlist:
+            printpath(grid, path, '.')
+            new_path = a_star(grid, penaltygrid_zero, path[0], path[-1])
+            new_length += (len(new_path) - 1)
+            new_pathlist.append(new_path)
+            printpath(grid, new_path, '*')
+        old_pathlist = new_pathlist
+    return (new_pathlist, new_length)

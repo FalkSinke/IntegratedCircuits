@@ -14,7 +14,7 @@ def plotting_3d(pathlist, points):
     #axes.axis('equal')
     axes.set_xlim([0, x_max])
     axes.set_ylim([0, y_max])
-    axes.set_zlim([0, 5])
+    axes.set_zlim([0, plotheight])
 
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
@@ -23,7 +23,7 @@ def plotting_3d(pathlist, points):
     axes.set_autoscale_on(False)
     ax.set_xticks([i for i in range(x_max)])
     ax.set_yticks([j for j in range(y_max)])
-    ax.set_zticks([k for k in range(6)])
+    ax.set_zticks([k for k in range(plotheight + 1)])
 
     for gate in points:
         #print(gate)
