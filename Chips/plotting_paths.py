@@ -11,7 +11,6 @@ def plotting_3d(pathlist, points):
     ax = fig.add_subplot(111, projection='3d')
 
     axes = plt.gca()
-    #axes.axis('equal')
     axes.set_xlim([0, x_max])
     axes.set_ylim([0, y_max])
     axes.set_zlim([0, plotheight])
@@ -25,16 +24,16 @@ def plotting_3d(pathlist, points):
     ax.set_yticks([j for j in range(y_max)])
     ax.set_zticks([k for k in range(plotheight + 1)])
 
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
     for gate in points:
-        #print(gate)
         ax.scatter(points[gate][0], points[gate][1], c=color1, marker='o')
     for path in pathlist:
         X = []
         Y = []
         Z = []
-        #set_markeredgecolor(color1)
-        #ax.scatter(path[0][0], path[0][1], c=color1, marker='o')
-        #ax.scatter(path[-1][0], path[-1][1], c=color1, marker='o')
         for coordinate in path:
             X.append(coordinate[0])
             Y.append(coordinate[1])

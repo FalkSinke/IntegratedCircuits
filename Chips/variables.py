@@ -1,7 +1,7 @@
 #Make both same if you only want to run one single heat value
 # final heatvalue is inclusive
-start_heatvalue = 0
-final_heatvalue = 10
+start_heatvalue = 5
+final_heatvalue = 5
 
 # Amount of iterations to be performed, a value of 1 will run the original
 # .txt permutation order.
@@ -10,10 +10,12 @@ amount_of_iterations = 1
 # Set to True if normal netlist is used (netlist_1.txt, netlist_2.txt etc.)
 # Original files started with gate 0, while the coordinates started at 1,
 # so set this one to False if using an own created netlist.
-original_netlist = True
+original_netlist = False
 
 # Name of netlist used
-used_netlist = 'netlists/netlist_1.txt'
+# Files in netlists map with _final are the best permutations we
+# found, see the report for the associated heat values
+used_netlist = 'netlists/netlist_1_final.txt'
 
 # Enable when running in python2 (or pypy when going for performance)
 # Dissable when running python3
@@ -22,7 +24,7 @@ python2 = False
 # Set True if you want perform 3d plotting at the end of the coordinates
 set_plotting = True
 # Determine the max heigh of paths plotting
-plotheight = 7
+plotheight = 3
 # Enable plotting of the heatmap at the end REQUIRES plot.ly
 plot_heatmap = False
 
