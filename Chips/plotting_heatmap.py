@@ -21,11 +21,10 @@ def penalty_x(penalty_grid, X, Y):
     return penalty_grid[X][Y][0]
 
 def main():
-    heat = 8
     init = a.initialise()
     grid = init[0]
     points = init[1]
-    penalty_grid = a.initialise_penalty_grid(points, heat)
+    penalty_grid = a.initialise_penalty_grid(points, start_heatvalue)
     surface_plot(penalty_grid)
 
 def surface_plot(penalty_grid):
